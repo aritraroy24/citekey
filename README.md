@@ -2,6 +2,8 @@
 
 A Chrome (MV3) extension that generates a BibTeX entry for whatever article page you are on, using **the same citation key Google Scholar would produce**. Import the same paper from both Scholar and this extension and your reference manager flags the duplicate instead of silently storing it twice.
 
+![CiteKey open on a Digital Discovery article, showing the generated @article entry](docs/screenshots/popup-on-article.png)
+
 It also renders `@online` entries in the layout used for web sources:
 
 ```bibtex

@@ -67,7 +67,7 @@ Privacy policy URL: the raw link to `PRIVACY.md` in the repository, or a page ho
 ## Assets checklist
 
 - [x] Icon 128×128 (`icons/icon128.png`)
-- [ ] Screenshot 1280×800 — popup open over a real article page on a publisher site, `@article` selected
+- [~] Screenshot 1280×800 — popup open over a real article page on a publisher site, `@article` selected. `docs/screenshots/popup-on-article.png` is this shot (RSC *Digital Discovery*, dark theme) but is 1912×1199: resize or crop to exactly 1280×800 before uploading
 - [ ] Screenshot 1280×800 — popup with `@online` selected, showing url + urldate
 - [ ] Screenshot 1280×800 — the duplicate-key warning
 - [ ] Screenshot 1280×800 — the library page with several entries
