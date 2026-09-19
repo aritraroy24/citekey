@@ -2,6 +2,18 @@
 
 All notable changes to CiteKey. This project follows [semantic versioning](https://semver.org/).
 
+## [1.1.0] - 2026-09-19
+
+### Added
+
+- Reads PDFs. When the tab is a PDF there is no page metadata to scrape, so CiteKey parses the file itself: the embedded XMP and info dictionary where publishers provide them, and otherwise the layout of the first pages - the largest text near the top is the title, the lines beneath it are the authors, and the venue comes from the boilerplate a publisher prints on page one.
+- Works out the entry type from the PDF: conference proceedings, journal article, preprint or book.
+- Cites arXiv papers as preprints, in the shape arXiv's own export uses: `@misc` with `eprint`, `archivePrefix` and `primaryClass`, and no journal, volume or pages, even where the PDF's footnote names a conference. Abstract pages on arxiv.org are treated the same way.
+- Dates arXiv preprints from the identifier rather than the stamp, so a paper revised years later is still dated to its first posting.
+- Names the journal from the running head, which is the one place a journal prints its name on every page.
+- "Find this paper on Crossref" searches by title and author for PDFs with no DOI, and shows what it found for confirmation before applying it. A DOI lookup still applies directly, being identity rather than a guess.
+- Reads the file through the tab itself, so PDFs behind a bot check or a login work, with a file picker as the fallback that always works.
+
 ## [1.0.1] — 2026-09-19
 
 ### Changed

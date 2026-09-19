@@ -9,7 +9,10 @@ import {
   addToLibrary,
   DEFAULT_SETTINGS
 } from "./entry.js";
-import { fetchCrossref, mergeEntries, CROSSREF_PERMISSION } from "./crossref.js";
+import { fetchCrossref, searchCrossref, mergeEntries, CROSSREF_PERMISSION } from "./crossref.js";
+import { readPdf } from "./pdfread.js";
+import { pdfToEntry } from "./pdfmeta.js";
+import { bytesForTab, bytesFromFile, looksLikePdfUrl } from "./pdfsource.js";
 
 const $ = (id) => document.getElementById(id);
 
@@ -28,6 +31,16 @@ const els = {
   themeButtons: Array.from(document.querySelectorAll("[data-theme-choice]")),
   crossrefRow: $("crossrefRow"),
   crossref: $("crossref"),
+  crossrefSearch: $("crossrefSearch"),
+  pdfPanel: $("pdfPanel"),
+  pdfStatus: $("pdfStatus"),
+  readPdf: $("readPdf"),
+  pdfFile: $("pdfFile"),
+  pdfPages: $("pdfPages"),
+  matchPanel: $("matchPanel"),
+  matchText: $("matchText"),
+  matchApply: $("matchApply"),
+  matchDismiss: $("matchDismiss"),
   output: $("output"),
   copy: $("copy"),
   download: $("download"),
@@ -54,6 +67,10 @@ const LIBRARY_KEY = "library";
 let entry = null;
 let settings = { ...DEFAULT_SETTINGS };
 let keyEdited = false;
+let activeTab = null;
+let pendingMatch = null;
+/** True once the entry came out of a PDF rather than a page's metadata. */
+let fromPdf = false;
 
 /* ---------- storage ---------- */
 
@@ -93,6 +110,7 @@ async function remember(key, current, bibtex) {
 
 async function readActiveTab() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  activeTab = tab || null;
   if (!tab || !tab.id) throw new Error("No active tab.");
   if (!/^https?:/i.test(tab.url || "")) throw new Error("This page is not a web page the extension can read.");
 
@@ -139,7 +157,9 @@ function readForm() {
     pageUrl: entry ? entry.pageUrl : "",
     urldate: els.urldate.value.trim(),
     isConference: entry ? entry.isConference : false,
-    isPreprint: entry ? entry.isPreprint : false
+    isPreprint: entry ? entry.isPreprint : false,
+    eprint: entry ? entry.eprint : "",
+    primaryClass: entry ? entry.primaryClass : ""
   };
 }
 
@@ -169,6 +189,13 @@ function applyTheme(theme) {
   return value;
 }
 
+/** How the popup describes where a field came from, when the answer is "we guessed". */
+const CONFIDENCE_NOTE = {
+  high: "Read from the PDF's own metadata — worth a glance, but it should be right.",
+  medium: "Worked out from the first pages. Check the title, authors and venue before you copy.",
+  low: "Little to go on in this PDF. Treat every field as a draft."
+};
+
 /* ---------- rendering ---------- */
 
 function render() {
@@ -189,13 +216,21 @@ function render() {
   fitOutput();
 
   const notes = warnings(current, type);
-  els.statusText.textContent = notes.length
-    ? notes.join(" ")
-    : "Read from the page. This key matches the one Scholar would export.";
-  els.status.classList.toggle("banner-warn", notes.length > 0);
-  els.status.classList.toggle("banner-quiet", notes.length === 0);
+  if (!fromPdf && !els.pdfPanel.hidden) {
+    say("This tab is a PDF, so there are no citation tags to read. Read the file to build the entry.");
+  } else if (notes.length) {
+    say(notes.join(" "), "warn");
+  } else if (fromPdf) {
+    say(CONFIDENCE_NOTE[(entry && entry.confidence) || "low"], (entry && entry.confidence) === "high" ? "" : "warn");
+  } else {
+    say("Read from the page. This key matches the one Scholar would export.");
+  }
 
-  els.crossrefRow.hidden = !current.doi;
+  // One row, two actions: look a DOI up, or search by title when the PDF had no DOI to use.
+  const searchable = fromPdf && current.title.length > 8;
+  els.crossref.hidden = !current.doi;
+  els.crossrefSearch.hidden = Boolean(current.doi) || !searchable;
+  els.crossrefRow.hidden = Boolean(current.doi) === false && !searchable;
 
   checkDuplicate(key, current);
   return bibtex;
@@ -251,6 +286,85 @@ async function enrichFromCrossref() {
   }
 }
 
+
+/* ---------- PDF ---------- */
+
+function showPdfPanel(show, message) {
+  els.pdfPanel.hidden = !show;
+  if (message) els.pdfStatus.textContent = message;
+}
+
+/** Parse PDF bytes and put what they say into the form. */
+async function usePdfBytes(bytes, { label }) {
+  const maxPages = Number(els.pdfPages.value) || 3;
+  say("Reading " + label + "…");
+
+  const parsed = await readPdf(bytes, { maxPages });
+  const found = pdfToEntry(parsed, { url: (activeTab && activeTab.url) || "" });
+
+  if (!found.title && !(found.authors || []).length) {
+    throw new Error("Nothing citable found in the first " + maxPages + " pages. Try reading more pages.");
+  }
+
+  entry = { ...found, pageUrl: (activeTab && activeTab.url) || "" };
+  fromPdf = true;
+  fillForm({ ...entry, urldate: today() });
+  if (settings.type === "auto" && found.suggestedType) els.type.value = found.suggestedType;
+  keyEdited = false;
+  render();
+
+  showPdfPanel(true, "Read " + Math.min(maxPages, parsed.pageCount) + " of " + parsed.pageCount +
+    (parsed.pageCount === 1 ? " page." : " pages.") + " Change the count and read again if the entry looks thin.");
+}
+
+async function readPdfFromTab() {
+  els.readPdf.disabled = true;
+  try {
+    const { bytes } = await bytesForTab(activeTab);
+    await usePdfBytes(bytes, { label: "the PDF" });
+  } catch (error) {
+    say(error.message + " You can open the file instead.", "warn");
+  } finally {
+    els.readPdf.disabled = false;
+  }
+}
+
+/* ---------- Crossref match confirmation ---------- */
+
+/** A DOI is identity, so it applies straight away; a title search is a guess and is offered. */
+function offerMatch(found) {
+  pendingMatch = found;
+  const where = found.journal ? ", " + found.journal : "";
+  els.matchText.textContent =
+    "Crossref found: " + found.title + (found.year ? " (" + found.year + ")" : "") + where +
+    ". Match " + Math.round((found.matchScore || 0) * 100) + "%.";
+  els.matchPanel.hidden = false;
+}
+
+async function searchOnCrossref() {
+  const granted = await chrome.permissions.request(CROSSREF_PERMISSION);
+  if (!granted) {
+    say("Crossref lookup needs permission to reach api.crossref.org.", "warn");
+    return;
+  }
+
+  els.crossrefSearch.disabled = true;
+  say("Searching Crossref for this title…");
+  try {
+    const found = await searchCrossref(readForm());
+    if (!found) {
+      say("Crossref has no confident match for this title. The fields below are what the PDF says.", "warn");
+      return;
+    }
+    offerMatch(found);
+    say("Crossref found a candidate — check it before applying.");
+  } catch (error) {
+    say(error.message, "warn");
+  } finally {
+    els.crossrefSearch.disabled = false;
+  }
+}
+
 /* ---------- startup ---------- */
 
 function applyChoices(detectedType) {
@@ -277,8 +391,20 @@ async function init() {
     return;
   }
 
+  const isPdf = entry.isPdf || looksLikePdfUrl(activeTab && activeTab.url);
+  // The PDF viewer reports the file name as the document title; blank it rather than seeding
+  // the entry with "1706.03762v7.pdf".
+  if (isPdf && /\.pdf$/i.test(entry.title || "")) entry = { ...entry, title: "" };
   fillForm(entry);
-  applyChoices(defaultType(entry));
+  applyChoices(isPdf ? "misc" : defaultType(entry));
+
+  if (isPdf) {
+    showPdfPanel(true);
+    say("This tab is a PDF, so there are no citation tags to read. Read the file to build the entry.");
+    render();
+    return;
+  }
+
   if (!entry.hasScholarTags) showFields(true);
   render();
 }
@@ -342,6 +468,37 @@ els.keyChip.addEventListener("click", async () => {
 els.toggleFields.addEventListener("click", () => showFields(els.fields.hidden));
 
 els.crossref.addEventListener("click", enrichFromCrossref);
+els.crossrefSearch.addEventListener("click", searchOnCrossref);
+els.readPdf.addEventListener("click", readPdfFromTab);
+
+els.pdfFile.addEventListener("change", async () => {
+  const file = els.pdfFile.files && els.pdfFile.files[0];
+  if (!file) return;
+  try {
+    await usePdfBytes(await bytesFromFile(file), { label: file.name });
+  } catch (error) {
+    say(error.message, "warn");
+  } finally {
+    els.pdfFile.value = "";
+  }
+});
+
+els.matchApply.addEventListener("click", () => {
+  if (!pendingMatch) return;
+  entry = mergeEntries({ ...entry, ...readForm() }, pendingMatch);
+  fillForm({ ...entry, urldate: els.urldate.value });
+  if (pendingMatch.crossrefType && settings.type === "auto") els.type.value = pendingMatch.crossrefType;
+  pendingMatch = null;
+  els.matchPanel.hidden = true;
+  keyEdited = false;
+  render();
+  toast("Applied the Crossref record.");
+});
+
+els.matchDismiss.addEventListener("click", () => {
+  pendingMatch = null;
+  els.matchPanel.hidden = true;
+});
 
 els.library.addEventListener("click", () => chrome.runtime.openOptionsPage());
 

@@ -1,0 +1,657 @@
+{
+ "_source": "https://papers.nips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf",
+ "_note": "Captured by scripts/pdf-fixture.mjs from a real PDF; body lines of later pages trimmed.",
+ "info": {
+  "PDFFormatVersion": "1.3",
+  "Language": null,
+  "EncryptFilterName": null,
+  "IsLinearized": false,
+  "IsAcroFormPresent": false,
+  "IsXFAPresent": false,
+  "IsCollectionPresent": false,
+  "IsSignaturesPresent": false,
+  "Subject": "Neural Information Processing Systems http://nips.cc/",
+  "Custom": {},
+  "Producer": "PyPDF2",
+  "Title": "Attention is All you Need",
+  "ModDate": "D:20180212212210-08'00'",
+  "Author": "Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Łukasz Kaiser, Illia Polosukhin"
+ },
+ "xmp": {},
+ "pageCount": 11,
+ "pages": [
+  {
+   "number": 1,
+   "width": 612,
+   "height": 792,
+   "lines": [
+    {
+     "text": "Attention Is All You Need",
+     "cells": [
+      "Attention Is All You Need"
+     ],
+     "size": 17.2,
+     "x": 211,
+     "y": 679,
+     "fromTop": 113
+    },
+    {
+     "text": "∗ ∗ ∗ ∗",
+     "cells": [
+      "∗",
+      "∗",
+      "∗",
+      "∗"
+     ],
+     "size": 7,
+     "x": 200,
+     "y": 602,
+     "fromTop": 190
+    },
+    {
+     "text": "Ashish Vaswani Noam Shazeer Niki Parmar Jakob Uszkoreit",
+     "cells": [
+      "Ashish Vaswani",
+      "Noam Shazeer",
+      "Niki Parmar",
+      "Jakob Uszkoreit"
+     ],
+     "size": 10,
+     "x": 133,
+     "y": 598,
+     "fromTop": 194
+    },
+    {
+     "text": "Google Brain Google Brain Google Research Google Research",
+     "cells": [
+      "Google Brain",
+      "Google Brain",
+      "Google Research",
+      "Google Research"
+     ],
+     "size": 10,
+     "x": 139,
+     "y": 587,
+     "fromTop": 205
+    },
+    {
+     "text": "avaswani@google.com noam@google.com nikip@google.com usz@google.com",
+     "cells": [
+      "avaswani@google.com",
+      "noam@google.com",
+      "nikip@google.com",
+      "usz@google.com"
+     ],
+     "size": 10,
+     "x": 117,
+     "y": 576,
+     "fromTop": 216
+    },
+    {
+     "text": "∗ ∗ † ∗",
+     "cells": [
+      "∗",
+      "∗ †",
+      "∗"
+     ],
+     "size": 7,
+     "x": 193,
+     "y": 552,
+     "fromTop": 240
+    },
+    {
+     "text": "Llion Jones Aidan N. Gomez Łukasz Kaiser",
+     "cells": [
+      "Llion Jones",
+      "Aidan N. Gomez",
+      "Łukasz Kaiser"
+     ],
+     "size": 10,
+     "x": 144,
+     "y": 548,
+     "fromTop": 244
+    },
+    {
+     "text": "Google Research University of Toronto Google Brain",
+     "cells": [
+      "Google Research",
+      "University of Toronto",
+      "Google Brain"
+     ],
+     "size": 10,
+     "x": 135,
+     "y": 537,
+     "fromTop": 255
+    },
+    {
+     "text": "llion@google.com aidan@cs.toronto.edu lukaszkaiser@google.com",
+     "cells": [
+      "llion@google.com",
+      "aidan@cs.toronto.edu",
+      "lukaszkaiser@google.com"
+     ],
+     "size": 10,
+     "x": 127,
+     "y": 526,
+     "fromTop": 266
+    },
+    {
+     "text": "∗ ‡",
+     "cells": [
+      "∗ ‡"
+     ],
+     "size": 7,
+     "x": 336,
+     "y": 502,
+     "fromTop": 290
+    },
+    {
+     "text": "Illia Polosukhin",
+     "cells": [
+      "Illia Polosukhin"
+     ],
+     "size": 10,
+     "x": 269,
+     "y": 498,
+     "fromTop": 294
+    },
+    {
+     "text": "illia.polosukhin@gmail.com",
+     "cells": [
+      "illia.polosukhin@gmail.com"
+     ],
+     "size": 10,
+     "x": 238,
+     "y": 487,
+     "fromTop": 305
+    },
+    {
+     "text": "Abstract",
+     "cells": [
+      "Abstract"
+     ],
+     "size": 12,
+     "x": 284,
+     "y": 446,
+     "fromTop": 346
+    },
+    {
+     "text": "The dominant sequence transduction models are based on complex recurrent or",
+     "cells": [
+      "The dominant sequence transduction models are based on complex recurrent or"
+     ],
+     "size": 10,
+     "x": 144,
+     "y": 424,
+     "fromTop": 368
+    },
+    {
+     "text": "convolutional neural networks that include an encoder and a decoder. The best",
+     "cells": [
+      "convolutional neural networks that include an encoder and a decoder. The best"
+     ],
+     "size": 10,
+     "x": 144,
+     "y": 413,
+     "fromTop": 379
+    },
+    {
+     "text": "performing models also connect the encoder and decoder through an attention",
+     "cells": [
+      "performing models also connect the encoder and decoder through an attention"
+     ],
+     "size": 10,
+     "x": 144,
+     "y": 402,
+     "fromTop": 390
+    },
+    {
+     "text": "mechanism. We propose a new simple network architecture, the Transformer,",
+     "cells": [
+      "mechanism. We propose a new simple network architecture, the Transformer,"
+     ],
+     "size": 10,
+     "x": 144,
+     "y": 392,
+     "fromTop": 400
+    },
+    {
+     "text": "based solely on attention mechanisms, dispensing with recurrence and convolutions",
+     "cells": [
+      "based solely on attention mechanisms, dispensing with recurrence and convolutions"
+     ],
+     "size": 10,
+     "x": 144,
+     "y": 381,
+     "fromTop": 411
+    },
+    {
+     "text": "entirely. Experiments on two machine translation tasks show these models to",
+     "cells": [
+      "entirely. Experiments on two machine translation tasks show these models to"
+     ],
+     "size": 10,
+     "x": 144,
+     "y": 370,
+     "fromTop": 422
+    },
+    {
+     "text": "be superior in quality while being more parallelizable and requiring significantly",
+     "cells": [
+      "be superior in quality while being more parallelizable and requiring significantly"
+     ],
+     "size": 10,
+     "x": 144,
+     "y": 359,
+     "fromTop": 433
+    },
+    {
+     "text": "less time to train. Our model achieves 28.4 BLEU on the WMT 2014 English-",
+     "cells": [
+      "less time to train. Our model achieves 28.4 BLEU on the WMT 2014 English-"
+     ],
+     "size": 10,
+     "x": 144,
+     "y": 348,
+     "fromTop": 444
+    },
+    {
+     "text": "to-German translation task, improving over the existing best results, including",
+     "cells": [
+      "to-German translation task, improving over the existing best results, including"
+     ],
+     "size": 10,
+     "x": 144,
+     "y": 337,
+     "fromTop": 455
+    },
+    {
+     "text": "ensembles, by over 2 BLEU. On the WMT 2014 English-to-French translation task,",
+     "cells": [
+      "ensembles, by over 2 BLEU. On the WMT 2014 English-to-French translation task,"
+     ],
+     "size": 10,
+     "x": 144,
+     "y": 326,
+     "fromTop": 466
+    },
+    {
+     "text": "our model establishes a new single-model state-of-the-art BLEU score of 41.0 after",
+     "cells": [
+      "our model establishes a new single-model state-of-the-art BLEU score of 41.0 after"
+     ],
+     "size": 10,
+     "x": 144,
+     "y": 315,
+     "fromTop": 477
+    },
+    {
+     "text": "training for 3.5 days on eight GPUs, a small fraction of the training costs of the",
+     "cells": [
+      "training for 3.5 days on eight GPUs, a small fraction of the training costs of the"
+     ],
+     "size": 10,
+     "x": 144,
+     "y": 304,
+     "fromTop": 488
+    },
+    {
+     "text": "best models from the literature.",
+     "cells": [
+      "best models from the literature."
+     ],
+     "size": 10,
+     "x": 144,
+     "y": 293,
+     "fromTop": 499
+    },
+    {
+     "text": "1 Introduction",
+     "cells": [
+      "1 Introduction"
+     ],
+     "size": 12,
+     "x": 108,
+     "y": 262,
+     "fromTop": 530
+    },
+    {
+     "text": "Recurrent neural networks, long short-term memory [12] and gated recurrent [7] neural networks",
+     "cells": [
+      "Recurrent neural networks, long short-term memory [12] and gated recurrent [7] neural networks"
+     ],
+     "size": 10,
+     "x": 108,
+     "y": 240,
+     "fromTop": 552
+    },
+    {
+     "text": "in particular, have been firmly established as state of the art approaches in sequence modeling and",
+     "cells": [
+      "in particular, have been firmly established as state of the art approaches in sequence modeling and"
+     ],
+     "size": 10,
+     "x": 108,
+     "y": 229,
+     "fromTop": 563
+    },
+    {
+     "text": "transduction problems such as language modeling and machine translation [29, 2, 5]. Numerous",
+     "cells": [
+      "transduction problems such as language modeling and machine translation [29, 2, 5]. Numerous"
+     ],
+     "size": 10,
+     "x": 108,
+     "y": 218,
+     "fromTop": 574
+    },
+    {
+     "text": "efforts have since continued to push the boundaries of recurrent language models and encoder-decoder",
+     "cells": [
+      "efforts have since continued to push the boundaries of recurrent language models and encoder-decoder"
+     ],
+     "size": 10,
+     "x": 108,
+     "y": 207,
+     "fromTop": 585
+    },
+    {
+     "text": "architectures [31, 21, 13].",
+     "cells": [
+      "architectures [31, 21, 13]."
+     ],
+     "size": 10,
+     "x": 108,
+     "y": 196,
+     "fromTop": 596
+    },
+    {
+     "text": "∗",
+     "cells": [
+      "∗"
+     ],
+     "size": 6,
+     "x": 120,
+     "y": 184,
+     "fromTop": 608
+    },
+    {
+     "text": "Equal contribution. Listing order is random. Jakob proposed replacing RNNs with self-attention and started",
+     "cells": [
+      "Equal contribution. Listing order is random. Jakob proposed replacing RNNs with self-attention and started"
+     ],
+     "size": 9,
+     "x": 124,
+     "y": 180,
+     "fromTop": 612
+    },
+    {
+     "text": "the effort to evaluate this idea. Ashish, with Illia, designed and implemented the first Transformer models and",
+     "cells": [
+      "the effort to evaluate this idea. Ashish, with Illia, designed and implemented the first Transformer models and"
+     ],
+     "size": 9,
+     "x": 108,
+     "y": 170,
+     "fromTop": 622
+    },
+    {
+     "text": "has been crucially involved in every aspect of this work. Noam proposed scaled dot-product attention, multi-head",
+     "cells": [
+      "has been crucially involved in every aspect of this work. Noam proposed scaled dot-product attention, multi-head"
+     ],
+     "size": 9,
+     "x": 108,
+     "y": 160,
+     "fromTop": 632
+    },
+    {
+     "text": "attention and the parameter-free position representation and became the other person involved in nearly every",
+     "cells": [
+      "attention and the parameter-free position representation and became the other person involved in nearly every"
+     ],
+     "size": 9,
+     "x": 108,
+     "y": 150,
+     "fromTop": 642
+    },
+    {
+     "text": "detail. Niki designed, implemented, tuned and evaluated countless model variants in our original codebase and",
+     "cells": [
+      "detail. Niki designed, implemented, tuned and evaluated countless model variants in our original codebase and"
+     ],
+     "size": 9,
+     "x": 108,
+     "y": 140,
+     "fromTop": 652
+    },
+    {
+     "text": "tensor2tensor. Llion also experimented with novel model variants, was responsible for our initial codebase, and",
+     "cells": [
+      "tensor2tensor. Llion also experimented with novel model variants, was responsible for our initial codebase, and"
+     ],
+     "size": 9,
+     "x": 108,
+     "y": 130,
+     "fromTop": 662
+    },
+    {
+     "text": "efficient inference and visualizations. Lukasz and Aidan spent countless long days designing various parts of and",
+     "cells": [
+      "efficient inference and visualizations. Lukasz and Aidan spent countless long days designing various parts of and"
+     ],
+     "size": 9,
+     "x": 108,
+     "y": 120,
+     "fromTop": 672
+    },
+    {
+     "text": "implementing tensor2tensor, replacing our earlier codebase, greatly improving results and massively accelerating",
+     "cells": [
+      "implementing tensor2tensor, replacing our earlier codebase, greatly improving results and massively accelerating"
+     ],
+     "size": 9,
+     "x": 108,
+     "y": 110,
+     "fromTop": 682
+    },
+    {
+     "text": "our research.",
+     "cells": [
+      "our research."
+     ],
+     "size": 9,
+     "x": 108,
+     "y": 100,
+     "fromTop": 692
+    },
+    {
+     "text": "†",
+     "cells": [
+      "†"
+     ],
+     "size": 6,
+     "x": 120,
+     "y": 93,
+     "fromTop": 699
+    },
+    {
+     "text": "Work performed while at Google Brain.",
+     "cells": [
+      "Work performed while at Google Brain."
+     ],
+     "size": 9,
+     "x": 124,
+     "y": 89,
+     "fromTop": 703
+    },
+    {
+     "text": "‡",
+     "cells": [
+      "‡"
+     ],
+     "size": 6,
+     "x": 120,
+     "y": 82,
+     "fromTop": 710
+    },
+    {
+     "text": "Work performed while at Google Research.",
+     "cells": [
+      "Work performed while at Google Research."
+     ],
+     "size": 9,
+     "x": 124,
+     "y": 79,
+     "fromTop": 713
+    },
+    {
+     "text": "31st Conference on Neural Information Processing Systems (NIPS 2017), Long Beach, CA, USA.",
+     "cells": [
+      "31st Conference on Neural Information Processing Systems (NIPS 2017), Long Beach, CA, USA."
+     ],
+     "size": 9,
+     "x": 108,
+     "y": 52,
+     "fromTop": 740
+    }
+   ]
+  },
+  {
+   "number": 2,
+   "width": 612,
+   "height": 792,
+   "lines": [
+    {
+     "text": "Recurrent models typically factor computation along the symbol positions of the input and output",
+     "cells": [
+      "Recurrent models typically factor computation along the symbol positions of the input and output"
+     ],
+     "size": 10,
+     "x": 108,
+     "y": 710,
+     "fromTop": 82
+    },
+    {
+     "text": "sequences. Aligning the positions to steps in computation time, they generate a sequence of hidden",
+     "cells": [
+      "sequences. Aligning the positions to steps in computation time, they generate a sequence of hidden"
+     ],
+     "size": 10,
+     "x": 108,
+     "y": 699,
+     "fromTop": 93
+    },
+    {
+     "text": "states h , as a function of the previous hidden state h and the input for position t . This inherently",
+     "cells": [
+      "states h , as a function of the previous hidden state h",
+      "and the input for position t. This inherently"
+     ],
+     "size": 10,
+     "x": 108,
+     "y": 688,
+     "fromTop": 104
+    },
+    {
+     "text": "Encoder: The encoder is composed of a stack of N = 6 identical layers. Each layer has two",
+     "cells": [
+      "Encoder: The encoder is composed of a stack of N = 6 identical layers. Each layer has two"
+     ],
+     "size": 10,
+     "x": 108,
+     "y": 83,
+     "fromTop": 709
+    },
+    {
+     "text": "sub-layers. The first is a multi-head self-attention mechanism, and the second is a simple, position-",
+     "cells": [
+      "sub-layers. The first is a multi-head self-attention mechanism, and the second is a simple, position-"
+     ],
+     "size": 10,
+     "x": 108,
+     "y": 72,
+     "fromTop": 720
+    },
+    {
+     "text": "2",
+     "cells": [
+      "2"
+     ],
+     "size": 10,
+     "x": 304,
+     "y": 42,
+     "fromTop": 750
+    }
+   ]
+  },
+  {
+   "number": 3,
+   "width": 612,
+   "height": 792,
+   "lines": [
+    {
+     "text": "Figure 1: The Transformer - model architecture.",
+     "cells": [
+      "Figure 1: The Transformer - model architecture."
+     ],
+     "size": 10,
+     "x": 210,
+     "y": 380,
+     "fromTop": 412
+    },
+    {
+     "text": "wise fully connected feed-forward network. We employ a residual connection [10] around each of",
+     "cells": [
+      "wise fully connected feed-forward network. We employ a residual connection [10] around each of"
+     ],
+     "size": 10,
+     "x": 108,
+     "y": 345,
+     "fromTop": 447
+    },
+    {
+     "text": "the two sub-layers, followed by layer normalization [1]. That is, the output of each sub-layer is",
+     "cells": [
+      "the two sub-layers, followed by layer normalization [1]. That is, the output of each sub-layer is"
+     ],
+     "size": 10,
+     "x": 108,
+     "y": 334,
+     "fromTop": 458
+    },
+    {
+     "text": "queries and keys of dimension d , and values of dimension d . We compute the dot products of the",
+     "cells": [
+      "queries and keys of dimension d , and values of dimension d . We compute the dot products of the"
+     ],
+     "size": 10,
+     "x": 108,
+     "y": 72,
+     "fromTop": 720
+    },
+    {
+     "text": "k v",
+     "cells": [
+      "k",
+      "v"
+     ],
+     "size": 7,
+     "x": 237,
+     "y": 71,
+     "fromTop": 721
+    },
+    {
+     "text": "3",
+     "cells": [
+      "3"
+     ],
+     "size": 10,
+     "x": 304,
+     "y": 42,
+     "fromTop": 750
+    }
+   ]
+  }
+ ]
+}

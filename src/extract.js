@@ -275,6 +275,15 @@
     if (rawPages) pages = rawPages.replace(/\s*[-–—]+\s*/, "--");
   }
 
+  /* arXiv abstract pages carry the id in a meta tag; other preprint servers put it in the URL.
+     Either way the entry should cite the preprint, not the version that appeared later. */
+  const arxivId = text(
+    meta("citation_arxiv_id", "arxiv:id") ||
+      (location.hostname.includes("arxiv.org")
+        ? (location.pathname.match(/(\d{4}\.\d{4,5})(v\d+)?/) || ["", ""])[1]
+        : "")
+  );
+
   const canonical = document.querySelector('link[rel="canonical"]');
   const url = text(
     meta("citation_abstract_html_url", "bepress_citation_abstract_html_url") ||
@@ -298,8 +307,17 @@
     github ? githubDate() : ""
   );
 
+  /* Chrome renders a PDF inside an internal viewer, so the document carries an <embed> and no
+     readable text. The popup switches to reading the file itself when it sees this. */
+  const isPdf =
+    document.contentType === "application/pdf" ||
+    Boolean(document.querySelector('embed[type="application/pdf"], object[type="application/pdf"]'));
+
   return {
     ok: true,
+    isPdf,
+    eprint: arxivId,
+    primaryClass: text(meta("citation_arxiv_primary_category")),
     title,
     authors: collectAuthors(),
     journal,

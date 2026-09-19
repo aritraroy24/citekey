@@ -171,3 +171,33 @@ body {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+/* ---------- pdf and match panels ---------- */
+
+.pdf, .match { padding: 10px 12px; }
+
+.pdf-head {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin-bottom: 9px;
+  color: var(--fg-muted);
+  font-size: 12px;
+}
+
+.pdf-head svg { width: 15px; height: 15px; flex: none; color: var(--accent); margin-top: 1px; }
+
+.pdf-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pdf-actions .file { cursor: pointer; }
+.pdf-actions .pages { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; color: var(--fg-muted); font-size: 12px; }
+.pdf-actions .pages select { width: auto; padding-block: 3px; }
+
+.match { border-color: var(--accent); }
+.match-text { margin: 0 0 9px; font-size: 12px; }
+.match-text b { font-weight: 600; }

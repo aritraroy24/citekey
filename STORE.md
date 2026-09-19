@@ -72,7 +72,7 @@ Paste each into the matching box in the dashboard.
 
 **activeTab** — Reads the citation metadata of the page the user is on, and only at the moment the user clicks the extension's toolbar button or presses its keyboard shortcut. This is what supplies the title, authors, journal, date and DOI for the BibTeX entry. The extension has no access to any page the user has not activated it on.
 
-**scripting** — Injects the metadata reader (`src/extract.js`) into that same activated tab to collect the `<meta>` tags and structured data. Injection happens on click only; no content script is registered to run automatically on any site.
+**scripting** — Injects the metadata reader (`src/extract.js`) into that same activated tab to collect the `<meta>` tags and structured data. When the tab is a PDF, which carries no such tags, it also injects a short function that fetches that same PDF so the extension can parse it in the browser and read the citation from the document itself. Injection happens on click only; no content script is registered to run automatically on any site.
 
 **storage** — Saves the user's own preferences (entry type, layout, which fields to include) and the entries they have copied, so the extension can warn about duplicate citation keys and export a `.bib` file. All of it stays in the browser; nothing is transmitted.
 
@@ -101,7 +101,7 @@ Screenshots must be exactly 1280×800 or 640×400, with no browser chrome mock-u
 
 ## Before you hit submit
 
-1. `npm test` is green (41 tests, including the manifest guards in `tests/manifest.test.mjs`).
+1. `npm test` is green (54 tests, including the manifest guards in `tests/manifest.test.mjs`).
 2. Load unpacked once more and check: keyboard shortcut, `@article` on a real publisher page, `@online` on a blog, the Crossref permission prompt, the library export.
 3. `npm run package` produces `citekey-<version>.zip` with no `node_modules`, `tests/` or dotfiles inside.
 4. Version in `manifest.json` matches the top entry of `CHANGELOG.md`.

@@ -1,0 +1,938 @@
+{
+ "_source": "https://aclanthology.org/N19-1423.pdf",
+ "_note": "Captured by scripts/pdf-fixture.mjs from a real PDF; body lines of later pages trimmed.",
+ "info": {
+  "PDFFormatVersion": "1.3",
+  "Language": null,
+  "EncryptFilterName": null,
+  "IsLinearized": false,
+  "IsAcroFormPresent": false,
+  "IsXFAPresent": false,
+  "IsCollectionPresent": false,
+  "IsSignaturesPresent": false,
+  "Author": "Jacob Devlin ; Ming-Wei Chang ; Kenton Lee ; Kristina Toutanova",
+  "CreationDate": "D:20190429173603Z",
+  "Creator": "LaTeX with hyperref package",
+  "Keywords": "",
+  "ModDate": "D:20190429173603Z",
+  "Custom": {},
+  "Producer": "pdfTeX-1.40.18",
+  "Subject": "N19-1 2019",
+  "Title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+  "Trapped": {
+   "name": "False"
+  }
+ },
+ "xmp": {},
+ "pageCount": 16,
+ "pages": [
+  {
+   "number": 1,
+   "width": 595,
+   "height": 842,
+   "lines": [
+    {
+     "text": "BERT: Pre-training of Deep Bidirectional Transformers for",
+     "cells": [
+      "BERT: Pre-training of Deep Bidirectional Transformers for"
+     ],
+     "size": 14.3,
+     "x": 117,
+     "y": 760,
+     "fromTop": 82
+    },
+    {
+     "text": "Language Understanding",
+     "cells": [
+      "Language Understanding"
+     ],
+     "size": 14.3,
+     "x": 221,
+     "y": 744,
+     "fromTop": 98
+    },
+    {
+     "text": "Jacob Devlin Ming-Wei Chang Kenton Lee Kristina Toutanova",
+     "cells": [
+      "Jacob Devlin",
+      "Ming-Wei Chang",
+      "Kenton Lee",
+      "Kristina Toutanova"
+     ],
+     "size": 12,
+     "x": 122,
+     "y": 702,
+     "fromTop": 140
+    },
+    {
+     "text": "Google AI Language",
+     "cells": [
+      "Google AI Language"
+     ],
+     "size": 12,
+     "x": 250,
+     "y": 688,
+     "fromTop": 154
+    },
+    {
+     "text": "{ jacobdevlin,mingweichang,kentonl,kristout } @google.com",
+     "cells": [
+      "{jacobdevlin,mingweichang,kentonl,kristout}@google.com"
+     ],
+     "size": 12,
+     "x": 108,
+     "y": 674,
+     "fromTop": 168
+    },
+    {
+     "text": "Abstract There are two existing strategies for apply-",
+     "cells": [
+      "Abstract",
+      "There are two existing strategies for apply-"
+     ],
+     "size": 12,
+     "x": 159,
+     "y": 608,
+     "fromTop": 234
+    },
+    {
+     "text": "ing pre-trained language representations to down-",
+     "cells": [
+      "ing pre-trained language representations to down-"
+     ],
+     "size": 10.9,
+     "x": 307,
+     "y": 595,
+     "fromTop": 247
+    },
+    {
+     "text": "We introduce a new language representa-",
+     "cells": [
+      "We introduce a new language representa-"
+     ],
+     "size": 10,
+     "x": 89,
+     "y": 589,
+     "fromTop": 253
+    },
+    {
+     "text": "stream tasks: feature-based and fine-tuning . The",
+     "cells": [
+      "stream tasks: feature-based and fine-tuning. The"
+     ],
+     "size": 10.9,
+     "x": 307,
+     "y": 581,
+     "fromTop": 261
+    },
+    {
+     "text": "tion model called BERT , which stands for",
+     "cells": [
+      "tion model called BERT, which stands for"
+     ],
+     "size": 10,
+     "x": 89,
+     "y": 577,
+     "fromTop": 265
+    },
+    {
+     "text": "feature-based approach, such as ELMo (Peters",
+     "cells": [
+      "feature-based approach, such as ELMo (Peters"
+     ],
+     "size": 10.9,
+     "x": 307,
+     "y": 568,
+     "fromTop": 274
+    },
+    {
+     "text": "B idirectional E ncoder R epresentations from",
+     "cells": [
+      "Bidirectional Encoder Representations from"
+     ],
+     "size": 10,
+     "x": 89,
+     "y": 565,
+     "fromTop": 277
+    },
+    {
+     "text": "et al., 2018a), uses task-specific architectures that",
+     "cells": [
+      "et al., 2018a), uses task-specific architectures that"
+     ],
+     "size": 10.9,
+     "x": 307,
+     "y": 554,
+     "fromTop": 288
+    },
+    {
+     "text": "T ransformers. Unlike recent language repre-",
+     "cells": [
+      "Transformers. Unlike recent language repre-"
+     ],
+     "size": 10,
+     "x": 89,
+     "y": 553,
+     "fromTop": 289
+    },
+    {
+     "text": "sentation models (Peters et al., 2018a; Rad- include the pre-trained representations as addi-",
+     "cells": [
+      "sentation models (Peters et al., 2018a; Rad-",
+      "include the pre-trained representations as addi-"
+     ],
+     "size": 10.9,
+     "x": 89,
+     "y": 541,
+     "fromTop": 301
+    },
+    {
+     "text": "ford et al., 2018), BERT is designed to pre-",
+     "cells": [
+      "ford et al., 2018), BERT is designed to pre-"
+     ],
+     "size": 10,
+     "x": 89,
+     "y": 529,
+     "fromTop": 313
+    },
+    {
+     "text": "tional features. The fine-tuning approach, such as",
+     "cells": [
+      "tional features. The fine-tuning approach, such as"
+     ],
+     "size": 10.9,
+     "x": 307,
+     "y": 527,
+     "fromTop": 315
+    },
+    {
+     "text": "train deep bidirectional representations from",
+     "cells": [
+      "train deep bidirectional representations from"
+     ],
+     "size": 10,
+     "x": 89,
+     "y": 517,
+     "fromTop": 325
+    },
+    {
+     "text": "the Generative Pre-trained Transformer (OpenAI",
+     "cells": [
+      "the Generative Pre-trained Transformer (OpenAI"
+     ],
+     "size": 10.9,
+     "x": 307,
+     "y": 514,
+     "fromTop": 328
+    },
+    {
+     "text": "unlabeled text by jointly conditioning on both",
+     "cells": [
+      "unlabeled text by jointly conditioning on both"
+     ],
+     "size": 10,
+     "x": 89,
+     "y": 505,
+     "fromTop": 337
+    },
+    {
+     "text": "GPT) (Radford et al., 2018), introduces minimal",
+     "cells": [
+      "GPT) (Radford et al., 2018), introduces minimal"
+     ],
+     "size": 10.9,
+     "x": 307,
+     "y": 500,
+     "fromTop": 342
+    },
+    {
+     "text": "left and right context in all layers. As a re-",
+     "cells": [
+      "left and right context in all layers. As a re-"
+     ],
+     "size": 10,
+     "x": 89,
+     "y": 493,
+     "fromTop": 349
+    },
+    {
+     "text": "task-specific parameters, and is trained on the",
+     "cells": [
+      "task-specific parameters, and is trained on the"
+     ],
+     "size": 10.9,
+     "x": 307,
+     "y": 486,
+     "fromTop": 356
+    },
+    {
+     "text": "sult, the pre-trained BERT model can be fine-",
+     "cells": [
+      "sult, the pre-trained BERT model can be fine-"
+     ],
+     "size": 10,
+     "x": 89,
+     "y": 481,
+     "fromTop": 361
+    },
+    {
+     "text": "downstream tasks by simply fine-tuning all pre-",
+     "cells": [
+      "downstream tasks by simply fine-tuning all pre-"
+     ],
+     "size": 10.9,
+     "x": 307,
+     "y": 473,
+     "fromTop": 369
+    },
+    {
+     "text": "tuned with just one additional output layer",
+     "cells": [
+      "tuned with just one additional output layer"
+     ],
+     "size": 10,
+     "x": 89,
+     "y": 469,
+     "fromTop": 373
+    },
+    {
+     "text": "trained parameters. The two approaches share the",
+     "cells": [
+      "trained parameters. The two approaches share the"
+     ],
+     "size": 10.9,
+     "x": 307,
+     "y": 459,
+     "fromTop": 383
+    },
+    {
+     "text": "to create state-of-the-art models for a wide",
+     "cells": [
+      "to create state-of-the-art models for a wide"
+     ],
+     "size": 10,
+     "x": 89,
+     "y": 457,
+     "fromTop": 385
+    },
+    {
+     "text": "same objective function during pre-training, where",
+     "cells": [
+      "same objective function during pre-training, where"
+     ],
+     "size": 10.9,
+     "x": 307,
+     "y": 446,
+     "fromTop": 396
+    },
+    {
+     "text": "range of tasks, such as question answering and",
+     "cells": [
+      "range of tasks, such as question answering and"
+     ],
+     "size": 10,
+     "x": 89,
+     "y": 445,
+     "fromTop": 397
+    },
+    {
+     "text": "language inference, without substantial task-",
+     "cells": [
+      "language inference, without substantial task-"
+     ],
+     "size": 10,
+     "x": 89,
+     "y": 433,
+     "fromTop": 409
+    },
+    {
+     "text": "they use unidirectional language models to learn",
+     "cells": [
+      "they use unidirectional language models to learn"
+     ],
+     "size": 10.9,
+     "x": 307,
+     "y": 432,
+     "fromTop": 410
+    },
+    {
+     "text": "specific architecture modifications.",
+     "cells": [
+      "specific architecture modifications."
+     ],
+     "size": 10,
+     "x": 89,
+     "y": 421,
+     "fromTop": 421
+    },
+    {
+     "text": "general language representations.",
+     "cells": [
+      "general language representations."
+     ],
+     "size": 10.9,
+     "x": 307,
+     "y": 419,
+     "fromTop": 423
+    },
+    {
+     "text": "BERT is conceptually simple and empirically We argue that current techniques restrict the",
+     "cells": [
+      "BERT is conceptually simple and empirically",
+      "We argue that current techniques restrict the"
+     ],
+     "size": 10.9,
+     "x": 89,
+     "y": 405,
+     "fromTop": 437
+    },
+    {
+     "text": "powerful. It obtains new state-of-the-art re-",
+     "cells": [
+      "powerful. It obtains new state-of-the-art re-"
+     ],
+     "size": 10,
+     "x": 89,
+     "y": 393,
+     "fromTop": 449
+    },
+    {
+     "text": "power of the pre-trained representations, espe-",
+     "cells": [
+      "power of the pre-trained representations, espe-"
+     ],
+     "size": 10.9,
+     "x": 307,
+     "y": 391,
+     "fromTop": 451
+    },
+    {
+     "text": "sults on eleven natural language processing",
+     "cells": [
+      "sults on eleven natural language processing"
+     ],
+     "size": 10,
+     "x": 89,
+     "y": 381,
+     "fromTop": 461
+    },
+    {
+     "text": "cially for the fine-tuning approaches. The ma-",
+     "cells": [
+      "cially for the fine-tuning approaches. The ma-"
+     ],
+     "size": 10.9,
+     "x": 307,
+     "y": 378,
+     "fromTop": 464
+    },
+    {
+     "text": "tasks, including pushing the GLUE score to",
+     "cells": [
+      "tasks, including pushing the GLUE score to"
+     ],
+     "size": 10,
+     "x": 89,
+     "y": 369,
+     "fromTop": 473
+    },
+    {
+     "text": "jor limitation is that standard language models are",
+     "cells": [
+      "jor limitation is that standard language models are"
+     ],
+     "size": 10.9,
+     "x": 307,
+     "y": 364,
+     "fromTop": 478
+    },
+    {
+     "text": "80.5% (7.7% point absolute improvement),",
+     "cells": [
+      "80.5% (7.7% point absolute improvement),"
+     ],
+     "size": 10,
+     "x": 89,
+     "y": 357,
+     "fromTop": 485
+    },
+    {
+     "text": "unidirectional, and this limits the choice of archi-",
+     "cells": [
+      "unidirectional, and this limits the choice of archi-"
+     ],
+     "size": 10.9,
+     "x": 307,
+     "y": 350,
+     "fromTop": 492
+    },
+    {
+     "text": "MultiNLI accuracy to 86.7% (4.6% absolute",
+     "cells": [
+      "MultiNLI accuracy to 86.7% (4.6% absolute"
+     ],
+     "size": 10,
+     "x": 89,
+     "y": 345,
+     "fromTop": 497
+    },
+    {
+     "text": "tectures that can be used during pre-training. For",
+     "cells": [
+      "tectures that can be used during pre-training. For"
+     ],
+     "size": 10.9,
+     "x": 307,
+     "y": 337,
+     "fromTop": 505
+    },
+    {
+     "text": "improvement), SQuAD v1.1 question answer-",
+     "cells": [
+      "improvement), SQuAD v1.1 question answer-"
+     ],
+     "size": 10,
+     "x": 89,
+     "y": 333,
+     "fromTop": 509
+    },
+    {
+     "text": "example, in OpenAI GPT, the authors use a left-to-",
+     "cells": [
+      "example, in OpenAI GPT, the authors use a left-to-"
+     ],
+     "size": 10.9,
+     "x": 307,
+     "y": 323,
+     "fromTop": 519
+    },
+    {
+     "text": "ing Test F1 to 93.2 (1.5 point absolute im-",
+     "cells": [
+      "ing Test F1 to 93.2 (1.5 point absolute im-"
+     ],
+     "size": 10,
+     "x": 89,
+     "y": 321,
+     "fromTop": 521
+    },
+    {
+     "text": "right architecture, where every token can only at-",
+     "cells": [
+      "right architecture, where every token can only at-"
+     ],
+     "size": 10.9,
+     "x": 307,
+     "y": 310,
+     "fromTop": 532
+    },
+    {
+     "text": "provement) and SQuAD v2.0 Test F1 to 83.1",
+     "cells": [
+      "provement) and SQuAD v2.0 Test F1 to 83.1"
+     ],
+     "size": 10,
+     "x": 89,
+     "y": 309,
+     "fromTop": 533
+    },
+    {
+     "text": "(5.1 point absolute improvement).",
+     "cells": [
+      "(5.1 point absolute improvement)."
+     ],
+     "size": 10,
+     "x": 89,
+     "y": 297,
+     "fromTop": 545
+    },
+    {
+     "text": "tend to previous tokens in the self-attention layers",
+     "cells": [
+      "tend to previous tokens in the self-attention layers"
+     ],
+     "size": 10.9,
+     "x": 307,
+     "y": 296,
+     "fromTop": 546
+    },
+    {
+     "text": "of the Transformer (Vaswani et al., 2017). Such re-",
+     "cells": [
+      "of the Transformer (Vaswani et al., 2017). Such re-"
+     ],
+     "size": 10.9,
+     "x": 307,
+     "y": 283,
+     "fromTop": 559
+    },
+    {
+     "text": "1 Introduction",
+     "cells": [
+      "1 Introduction"
+     ],
+     "size": 12,
+     "x": 72,
+     "y": 276,
+     "fromTop": 566
+    },
+    {
+     "text": "strictions are sub-optimal for sentence-level tasks,",
+     "cells": [
+      "strictions are sub-optimal for sentence-level tasks,"
+     ],
+     "size": 10.9,
+     "x": 307,
+     "y": 269,
+     "fromTop": 573
+    },
+    {
+     "text": "and could be very harmful when applying fine-",
+     "cells": [
+      "and could be very harmful when applying fine-"
+     ],
+     "size": 10.9,
+     "x": 307,
+     "y": 256,
+     "fromTop": 586
+    },
+    {
+     "text": "Language model pre-training has been shown to",
+     "cells": [
+      "Language model pre-training has been shown to"
+     ],
+     "size": 10.9,
+     "x": 72,
+     "y": 255,
+     "fromTop": 587
+    },
+    {
+     "text": "be effective for improving many natural language tuning based approaches to token-level tasks such",
+     "cells": [
+      "be effective for improving many natural language",
+      "tuning based approaches to token-level tasks such"
+     ],
+     "size": 10.9,
+     "x": 72,
+     "y": 242,
+     "fromTop": 600
+    },
+    {
+     "text": "processing tasks (Dai and Le, 2015; Peters et al., as question answering, where it is crucial to incor-",
+     "cells": [
+      "processing tasks (Dai and Le, 2015; Peters et al.,",
+      "as question answering, where it is crucial to incor-"
+     ],
+     "size": 10.9,
+     "x": 72,
+     "y": 228,
+     "fromTop": 614
+    },
+    {
+     "text": "porate context from both directions.",
+     "cells": [
+      "porate context from both directions."
+     ],
+     "size": 10.9,
+     "x": 307,
+     "y": 215,
+     "fromTop": 627
+    },
+    {
+     "text": "2018a; Radford et al., 2018; Howard and Ruder,",
+     "cells": [
+      "2018a; Radford et al., 2018; Howard and Ruder,"
+     ],
+     "size": 10.9,
+     "x": 72,
+     "y": 214,
+     "fromTop": 628
+    },
+    {
+     "text": "2018). These include sentence-level tasks such as In this paper, we improve the fine-tuning based",
+     "cells": [
+      "2018). These include sentence-level tasks such as",
+      "In this paper, we improve the fine-tuning based"
+     ],
+     "size": 10.9,
+     "x": 72,
+     "y": 201,
+     "fromTop": 641
+    },
+    {
+     "text": "natural language inference (Bowman et al., 2015; approaches by proposing BERT: B idirectional",
+     "cells": [
+      "natural language inference (Bowman et al., 2015;",
+      "approaches by proposing BERT: Bidirectional"
+     ],
+     "size": 10.9,
+     "x": 72,
+     "y": 187,
+     "fromTop": 655
+    },
+    {
+     "text": "Williams et al., 2018) and paraphrasing (Dolan E ncoder R epresentations from T ransformers.",
+     "cells": [
+      "Williams et al., 2018) and paraphrasing (Dolan",
+      "Encoder Representations from Transformers."
+     ],
+     "size": 10.9,
+     "x": 72,
+     "y": 174,
+     "fromTop": 668
+    },
+    {
+     "text": "and Brockett, 2005), which aim to predict the re- BERT alleviates the previously mentioned unidi-",
+     "cells": [
+      "and Brockett, 2005), which aim to predict the re-",
+      "BERT alleviates the previously mentioned unidi-"
+     ],
+     "size": 10.9,
+     "x": 72,
+     "y": 160,
+     "fromTop": 682
+    },
+    {
+     "text": "lationships between sentences by analyzing them rectionality constraint by using a “masked lan-",
+     "cells": [
+      "lationships between sentences by analyzing them",
+      "rectionality constraint by using a “masked lan-"
+     ],
+     "size": 10.9,
+     "x": 72,
+     "y": 147,
+     "fromTop": 695
+    },
+    {
+     "text": "holistically, as well as token-level tasks such as guage model” (MLM) pre-training objective, in-",
+     "cells": [
+      "holistically, as well as token-level tasks such as",
+      "guage model” (MLM) pre-training objective, in-"
+     ],
+     "size": 10.9,
+     "x": 72,
+     "y": 133,
+     "fromTop": 709
+    },
+    {
+     "text": "named entity recognition and question answering, spired by the Cloze task (Taylor, 1953). The",
+     "cells": [
+      "named entity recognition and question answering,",
+      "spired by the Cloze task (Taylor, 1953). The"
+     ],
+     "size": 10.9,
+     "x": 72,
+     "y": 120,
+     "fromTop": 722
+    },
+    {
+     "text": "where models are required to produce fine-grained masked language model randomly masks some of",
+     "cells": [
+      "where models are required to produce fine-grained",
+      "masked language model randomly masks some of"
+     ],
+     "size": 10.9,
+     "x": 72,
+     "y": 106,
+     "fromTop": 736
+    },
+    {
+     "text": "output at the token level (Tjong Kim Sang and the tokens from the input, and the objective is to",
+     "cells": [
+      "output at the token level (Tjong Kim Sang and",
+      "the tokens from the input, and the objective is to"
+     ],
+     "size": 10.9,
+     "x": 72,
+     "y": 92,
+     "fromTop": 750
+    },
+    {
+     "text": "De Meulder, 2003; Rajpurkar et al., 2016). predict the original vocabulary id of the masked",
+     "cells": [
+      "De Meulder, 2003; Rajpurkar et al., 2016).",
+      "predict the original vocabulary id of the masked"
+     ],
+     "size": 10.9,
+     "x": 72,
+     "y": 79,
+     "fromTop": 763
+    },
+    {
+     "text": "4171",
+     "cells": [
+      "4171"
+     ],
+     "size": 10.9,
+     "x": 288,
+     "y": 56,
+     "fromTop": 786
+    },
+    {
+     "text": "Proceedings of NAACL-HLT 2019 , pages 4171–4186",
+     "cells": [
+      "Proceedings of NAACL-HLT 2019, pages 4171–4186"
+     ],
+     "size": 9,
+     "x": 203,
+     "y": 40,
+     "fromTop": 802
+    },
+    {
+     "text": "Minneapolis, Minnesota, June 2 - June 7, 2019. © c 2019 Association for Computational Linguistics",
+     "cells": [
+      "Minneapolis, Minnesota, June 2 - June 7, 2019. ©c2019 Association for Computational Linguistics"
+     ],
+     "size": 9,
+     "x": 120,
+     "y": 29,
+     "fromTop": 813
+    }
+   ]
+  },
+  {
+   "number": 2,
+   "width": 595,
+   "height": 842,
+   "lines": [
+    {
+     "text": "word based only on its context. Unlike left-to- These approaches have been generalized to",
+     "cells": [
+      "word based only on its context. Unlike left-to-",
+      "These approaches have been generalized to"
+     ],
+     "size": 10.9,
+     "x": 72,
+     "y": 768,
+     "fromTop": 74
+    },
+    {
+     "text": "right language model pre-training, the MLM ob- coarser granularities, such as sentence embed-",
+     "cells": [
+      "right language model pre-training, the MLM ob-",
+      "coarser granularities, such as sentence embed-"
+     ],
+     "size": 10.9,
+     "x": 72,
+     "y": 755,
+     "fromTop": 87
+    },
+    {
+     "text": "jective enables the representation to fuse the left dings (Kiros et al., 2015; Logeswaran and Lee,",
+     "cells": [
+      "jective enables the representation to fuse the left",
+      "dings (Kiros et al., 2015; Logeswaran and Lee,"
+     ],
+     "size": 10.9,
+     "x": 72,
+     "y": 741,
+     "fromTop": 101
+    },
+    {
+     "text": "criminate correct from incorrect words in left and level tasks from the GLUE benchmark (Wang",
+     "cells": [
+      "criminate correct from incorrect words in left and",
+      "level tasks from the GLUE benchmark (Wang"
+     ],
+     "size": 10.9,
+     "x": 72,
+     "y": 92,
+     "fromTop": 750
+    },
+    {
+     "text": "right context (Mikolov et al., 2013). et al., 2018a). Left-to-right language model-",
+     "cells": [
+      "right context (Mikolov et al., 2013).",
+      "et al., 2018a).",
+      "Left-to-right language model-"
+     ],
+     "size": 10.9,
+     "x": 72,
+     "y": 79,
+     "fromTop": 763
+    },
+    {
+     "text": "4172",
+     "cells": [
+      "4172"
+     ],
+     "size": 10.9,
+     "x": 288,
+     "y": 56,
+     "fromTop": 786
+    }
+   ]
+  },
+  {
+   "number": 3,
+   "width": 595,
+   "height": 842,
+   "lines": [
+    {
+     "text": "MNLI NER SQuAD",
+     "cells": [
+      "MNLI NER SQuAD"
+     ],
+     "size": 6.9,
+     "x": 303,
+     "y": 763,
+     "fromTop": 79
+    },
+    {
+     "text": "NSP Mask LM Mask LM",
+     "cells": [
+      "NSP",
+      "Mask LM",
+      "Mask LM"
+     ],
+     "size": 6.5,
+     "x": 89,
+     "y": 762,
+     "fromTop": 80
+    },
+    {
+     "text": "Start/End Span",
+     "cells": [
+      "Start/End Span"
+     ],
+     "size": 6.5,
+     "x": 458,
+     "y": 759,
+     "fromTop": 83
+    },
+    {
+     "text": "4",
+     "cells": [
+      "4"
+     ],
+     "size": 6,
+     "x": 320,
+     "y": 83,
+     "fromTop": 759
+    },
+    {
+     "text": "chitecture across different tasks. There is mini- We note that in the literature the bidirectional Trans-",
+     "cells": [
+      "chitecture across different tasks. There is mini-",
+      "We note that in the literature the bidirectional Trans-"
+     ],
+     "size": 10.9,
+     "x": 72,
+     "y": 79,
+     "fromTop": 763
+    },
+    {
+     "text": "4173",
+     "cells": [
+      "4173"
+     ],
+     "size": 10.9,
+     "x": 288,
+     "y": 56,
+     "fromTop": 786
+    }
+   ]
+  }
+ ]
+}

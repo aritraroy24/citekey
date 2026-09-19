@@ -31,6 +31,42 @@ export function isSameSource(a, b) {
   return mine.some((u) => theirs.includes(u));
 }
 
+/* ---------- names ---------- */
+
+const PARTICLES = ["van", "von", "de", "del", "della", "der", "den", "di", "da", "dos", "du", "la", "le", "bin", "ibn", "al", "ter", "ten", "st"];
+
+const ORG_HINTS = /\b(inc|ltd|llc|plc|gmbh|corp|corporation|company|cloud|group|team|universit\w*|college|school|institute|laborator\w*|foundation|association|society|council|commission|ministry|department|agency|organi[sz]ation|consortium|press)\b/i;
+
+/**
+ * Normalise a personal name to the "Last, First" order BibTeX expects, keeping name particles
+ * with the surname and reading trailing initials ("Okafor CN") as initials rather than a surname.
+ * Mirrors the logic in the injected extractor, which cannot import from here — it ships alone.
+ */
+export function toBibtexName(raw, options = {}) {
+  const name = String(raw || "").replace(/\s+/g, " ").trim().replace(/^(by|By)\s+/, "").replace(/[;|,]\s*$/, "");
+  if (!name) return null;
+
+  const corporate = options.corporate === true || (options.corporate !== false && !name.includes(",") && ORG_HINTS.test(name));
+  if (corporate) return { name, corporate: true };
+
+  if (name.includes(",")) {
+    const [last, ...rest] = name.split(",");
+    const given = rest.join(" ").replace(/\s+/g, " ").trim();
+    return { name: given ? last.trim() + ", " + given : last.trim(), corporate: false };
+  }
+
+  const parts = name.split(" ");
+  if (parts.length === 1) return { name: parts[0], corporate: false };
+
+  if (/^(?:[A-Z]{1,3}|(?:[A-Z]\.){1,3})$/.test(parts[parts.length - 1])) {
+    return { name: parts.slice(0, -1).join(" ") + ", " + parts[parts.length - 1], corporate: false };
+  }
+
+  let cut = parts.length - 1;
+  while (cut > 1 && PARTICLES.includes(parts[cut - 1].toLowerCase().replace(/\./g, ""))) cut -= 1;
+  return { name: parts.slice(cut).join(" ") + ", " + parts.slice(0, cut).join(" "), corporate: false };
+}
+
 /* ---------- settings ---------- */
 
 export const THEMES = ["system", "light", "dark"];

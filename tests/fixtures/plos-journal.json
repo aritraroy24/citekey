@@ -1,0 +1,949 @@
+{
+ "_source": "https://journals.plos.org/plosone/article/file?id=10.1371/journal.pone.0287577&type=printable",
+ "_note": "Captured by scripts/pdf-fixture.mjs from a real PDF; body lines of later pages trimmed.",
+ "info": {
+  "PDFFormatVersion": "1.6",
+  "Language": "en",
+  "EncryptFilterName": null,
+  "IsLinearized": false,
+  "IsAcroFormPresent": false,
+  "IsXFAPresent": false,
+  "IsCollectionPresent": false,
+  "IsSignaturesPresent": false,
+  "Title": "Computer simulation approach to the identification of visfatin-derived angiogenic peptides",
+  "Creator": "PTC Arbortext Layout Developer 12.1.6180/W-x64",
+  "Producer": "PDFlib+PDI 9.3.1p2 (C++/Win64)",
+  "Custom": {},
+  "CreationDate": "D:20230623052104+05'30'",
+  "Author": "Ji Myung Choi, Srimai Vuppala, Min Jung Park, Jaeyoung Kim, Myeong-Eun Jegal, Yu-Seon Han, Yung-Jin Kim, Joonkyung Jang, Min-Ho Jeong, Bo Sun Joo",
+  "ModDate": "D:20230623052104+05'30'"
+ },
+ "xmp": {
+  "dc:title": "Computer simulation approach to the identification of visfatin-derived angiogenic peptides",
+  "dc:creator": [
+   "Ji Myung Choi, Srimai Vuppala, Min Jung Park, Jaeyoung Kim, Myeong-Eun Jegal, Yu-Seon Han, Yung-Jin Kim, Joonkyung Jang, Min-Ho Jeong, Bo Sun Joo"
+  ],
+  "dc:identifier": "doi:10.1371/journal.pone.0287577",
+  "prism:doi": "10.1371/journal.pone.0287577",
+  "pdfx:doi": "10.1371/journal.pone.0287577"
+ },
+ "pageCount": 17,
+ "pages": [
+  {
+   "number": 1,
+   "width": 612,
+   "height": 792,
+   "lines": [
+    {
+     "text": "PLOS ONE",
+     "cells": [
+      "PLOS ONE"
+     ],
+     "size": 20.6,
+     "x": 35,
+     "y": 744,
+     "fromTop": 48
+    },
+    {
+     "text": "RESEARCH ARTICLE",
+     "cells": [
+      "RESEARCH ARTICLE"
+     ],
+     "size": 8,
+     "x": 200,
+     "y": 691,
+     "fromTop": 101
+    },
+    {
+     "text": "Computer simulation approach to the",
+     "cells": [
+      "Computer simulation approach to the"
+     ],
+     "size": 18,
+     "x": 200,
+     "y": 668,
+     "fromTop": 124
+    },
+    {
+     "text": "identification of visfatin-derived angiogenic",
+     "cells": [
+      "identification of visfatin-derived angiogenic"
+     ],
+     "size": 18,
+     "x": 200,
+     "y": 646,
+     "fromTop": 146
+    },
+    {
+     "text": "peptides",
+     "cells": [
+      "peptides"
+     ],
+     "size": 18,
+     "x": 200,
+     "y": 623,
+     "fromTop": 169
+    },
+    {
+     "text": "1,2 ☯ 3 ☯ 1,4 3",
+     "cells": [
+      "1,2☯",
+      "3☯",
+      "1,4",
+      "3"
+     ],
+     "size": 6,
+     "x": 260,
+     "y": 602,
+     "fromTop": 190
+    },
+    {
+     "text": "Ji Myung Choi , Srimai VuppalaID , Min Jung Park , Jaeyoung Kim ,",
+     "cells": [
+      "Ji Myung Choi",
+      ", Srimai VuppalaID , Min Jung Park , Jaeyoung Kim ,"
+     ],
+     "size": 9,
+     "x": 200,
+     "y": 598,
+     "fromTop": 194
+    },
+    {
+     "text": "5 5 5,6 3‡",
+     "cells": [
+      "5",
+      "5",
+      "5,6",
+      "3‡"
+     ],
+     "size": 6,
+     "x": 278,
+     "y": 591,
+     "fromTop": 201
+    },
+    {
+     "text": "Myeong-Eun Jegal , Yu-Seon Han , Yung-Jin Kim , Joonkyung Jang * ,",
+     "cells": [
+      "Myeong-Eun Jegal , Yu-Seon Han , Yung-Jin Kim , Joonkyung Jang *,"
+     ],
+     "size": 9,
+     "x": 200,
+     "y": 587,
+     "fromTop": 205
+    },
+    {
+     "text": "2‡ 1,4‡",
+     "cells": [
+      "2‡",
+      "1,4‡"
+     ],
+     "size": 6,
+     "x": 259,
+     "y": 580,
+     "fromTop": 212
+    },
+    {
+     "text": "Min-Ho Jeong * , Bo Sun JooID *",
+     "cells": [
+      "Min-Ho Jeong *, Bo Sun JooID",
+      "*"
+     ],
+     "size": 9,
+     "x": 200,
+     "y": 576,
+     "fromTop": 216
+    },
+    {
+     "text": "1 Lab-to-Medi CRO Inc., Seoul, Republic of Korea, 2 Department of Microbiology, Dong-A University College",
+     "cells": [
+      "1 Lab-to-Medi CRO Inc., Seoul, Republic of Korea, 2 Department of Microbiology, Dong-A University College"
+     ],
+     "size": 8,
+     "x": 200,
+     "y": 558,
+     "fromTop": 234
+    },
+    {
+     "text": "of Medicine, Busan, Republic of Korea, 3 Department of Nanoenergy Engineering, Pusan National",
+     "cells": [
+      "of Medicine, Busan, Republic of Korea, 3 Department of Nanoenergy Engineering, Pusan National"
+     ],
+     "size": 8,
+     "x": 200,
+     "y": 548,
+     "fromTop": 244
+    },
+    {
+     "text": "University, Busan, Republic of Korea, 4 The Korea Institute for Public Sperm Bank, Busan, Republic of",
+     "cells": [
+      "University, Busan, Republic of Korea, 4 The Korea Institute for Public Sperm Bank, Busan, Republic of"
+     ],
+     "size": 8,
+     "x": 200,
+     "y": 538,
+     "fromTop": 254
+    },
+    {
+     "text": "a1111111111",
+     "cells": [
+      "a1111111111"
+     ],
+     "size": 10,
+     "x": 36,
+     "y": 531,
+     "fromTop": 261
+    },
+    {
+     "text": "Korea, 5 Korea Nanobiotechnology Center, Pusan National University, Busan, Republic of Korea,",
+     "cells": [
+      "Korea, 5 Korea Nanobiotechnology Center, Pusan National University, Busan, Republic of Korea,"
+     ],
+     "size": 8,
+     "x": 200,
+     "y": 528,
+     "fromTop": 264
+    },
+    {
+     "text": "a1111111111",
+     "cells": [
+      "a1111111111"
+     ],
+     "size": 10,
+     "x": 36,
+     "y": 520,
+     "fromTop": 272
+    },
+    {
+     "text": "6 Department of Molecular Biology, Pusan National University, Busan, Republic of Korea",
+     "cells": [
+      "6 Department of Molecular Biology, Pusan National University, Busan, Republic of Korea"
+     ],
+     "size": 8,
+     "x": 200,
+     "y": 518,
+     "fromTop": 274
+    },
+    {
+     "text": "a1111111111",
+     "cells": [
+      "a1111111111"
+     ],
+     "size": 10,
+     "x": 36,
+     "y": 508,
+     "fromTop": 284
+    },
+    {
+     "text": "☯ These authors contributed equally to this work.",
+     "cells": [
+      "☯ These authors contributed equally to this work."
+     ],
+     "size": 8,
+     "x": 200,
+     "y": 498,
+     "fromTop": 294
+    },
+    {
+     "text": "a1111111111",
+     "cells": [
+      "a1111111111"
+     ],
+     "size": 10,
+     "x": 36,
+     "y": 497,
+     "fromTop": 295
+    },
+    {
+     "text": "‡ JJ, MHJ and BSJ also contributed equally to this work.",
+     "cells": [
+      "‡ JJ, MHJ and BSJ also contributed equally to this work."
+     ],
+     "size": 8,
+     "x": 200,
+     "y": 488,
+     "fromTop": 304
+    },
+    {
+     "text": "a1111111111",
+     "cells": [
+      "a1111111111"
+     ],
+     "size": 10,
+     "x": 36,
+     "y": 485,
+     "fromTop": 307
+    },
+    {
+     "text": "* jkjang@pusan.ac.kr (JJ); mhjeong@dau.ac.kr (MHJ); bosunoo@hanmail.net (BSJ)",
+     "cells": [
+      "* jkjang@pusan.ac.kr (JJ); mhjeong@dau.ac.kr (MHJ); bosunoo@hanmail.net (BSJ)"
+     ],
+     "size": 8,
+     "x": 200,
+     "y": 478,
+     "fromTop": 314
+    },
+    {
+     "text": "Abstract",
+     "cells": [
+      "Abstract"
+     ],
+     "size": 14.5,
+     "x": 200,
+     "y": 438,
+     "fromTop": 354
+    },
+    {
+     "text": "OPEN ACCESS",
+     "cells": [
+      "OPEN ACCESS"
+     ],
+     "size": 8,
+     "x": 48,
+     "y": 427,
+     "fromTop": 365
+    },
+    {
+     "text": "Angiogenesis plays an essential role in various normal physiological processes, such as",
+     "cells": [
+      "Angiogenesis plays an essential role in various normal physiological processes, such as"
+     ],
+     "size": 9.5,
+     "x": 200,
+     "y": 416,
+     "fromTop": 376
+    },
+    {
+     "text": "Citation: Choi JM, Vuppala S, Park MJ, Kim J,",
+     "cells": [
+      "Citation: Choi JM, Vuppala S, Park MJ, Kim J,"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 411,
+     "fromTop": 381
+    },
+    {
+     "text": "embryogenesis, tissue repair, and skin regeneration. Visfatin is a 52 kDa adipokine secreted",
+     "cells": [
+      "embryogenesis, tissue repair, and skin regeneration. Visfatin is a 52 kDa adipokine secreted"
+     ],
+     "size": 9.5,
+     "x": 200,
+     "y": 402,
+     "fromTop": 390
+    },
+    {
+     "text": "Jegal M-Eun, Han Y-S, et al. (2023) Computer",
+     "cells": [
+      "Jegal M-Eun, Han Y-S, et al. (2023) Computer"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 400,
+     "fromTop": 392
+    },
+    {
+     "text": "simulation approach to the identification of visfatin-",
+     "cells": [
+      "simulation approach to the identification of visfatin-"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 389,
+     "fromTop": 403
+    },
+    {
+     "text": "by various tissues including adipocytes. It stimulates the expression of vascular endothelial",
+     "cells": [
+      "by various tissues including adipocytes. It stimulates the expression of vascular endothelial"
+     ],
+     "size": 9.5,
+     "x": 200,
+     "y": 388,
+     "fromTop": 404
+    },
+    {
+     "text": "derived angiogenic peptides. PLoS ONE 18(6):",
+     "cells": [
+      "derived angiogenic peptides. PLoS ONE 18(6):"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 378,
+     "fromTop": 414
+    },
+    {
+     "text": "growth factor (VEGF) and promotes angiogenesis. However, there are several issues in",
+     "cells": [
+      "growth factor (VEGF) and promotes angiogenesis. However, there are several issues in"
+     ],
+     "size": 9.5,
+     "x": 200,
+     "y": 374,
+     "fromTop": 418
+    },
+    {
+     "text": "e0287577. https://doi.org/10.1371/journal.",
+     "cells": [
+      "e0287577. https://doi.org/10.1371/journal."
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 367,
+     "fromTop": 425
+    },
+    {
+     "text": "developing full-length visfatin as a therapeutic drug due to its high molecular weight. There-",
+     "cells": [
+      "developing full-length visfatin as a therapeutic drug due to its high molecular weight. There-"
+     ],
+     "size": 9.5,
+     "x": 200,
+     "y": 360,
+     "fromTop": 432
+    },
+    {
+     "text": "pone.0287577",
+     "cells": [
+      "pone.0287577"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 356,
+     "fromTop": 436
+    },
+    {
+     "text": "fore, the purpose of this study was to develop peptides, based on the active site of visfatin,",
+     "cells": [
+      "fore, the purpose of this study was to develop peptides, based on the active site of visfatin,"
+     ],
+     "size": 9.5,
+     "x": 200,
+     "y": 346,
+     "fromTop": 446
+    },
+    {
+     "text": "Editor: Belgin Sever, Anadolu University: Anadolu",
+     "cells": [
+      "Editor: Belgin Sever, Anadolu University: Anadolu"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 339,
+     "fromTop": 453
+    },
+    {
+     "text": "with similar or superior angiogenic activity using computer simulation techniques.Initially,",
+     "cells": [
+      "with similar or superior angiogenic activity using computer simulation techniques.Initially,"
+     ],
+     "size": 9.5,
+     "x": 200,
+     "y": 332,
+     "fromTop": 460
+    },
+    {
+     "text": "Universitesi, TURKEY",
+     "cells": [
+      "Universitesi, TURKEY"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 328,
+     "fromTop": 464
+    },
+    {
+     "text": "the active site domain (residues 181 * 390) of visfatin was first truncated into small peptides",
+     "cells": [
+      "the active site domain (residues 181*390) of visfatin was first truncated into small peptides"
+     ],
+     "size": 9.5,
+     "x": 200,
+     "y": 318,
+     "fromTop": 474
+    },
+    {
+     "text": "Received: March 7, 2023",
+     "cells": [
+      "Received: March 7, 2023"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 311,
+     "fromTop": 481
+    },
+    {
+     "text": "using the overlapping technique. Subsequently, the 114 truncated small peptides were then",
+     "cells": [
+      "using the overlapping technique. Subsequently, the 114 truncated small peptides were then"
+     ],
+     "size": 9.5,
+     "x": 200,
+     "y": 304,
+     "fromTop": 488
+    },
+    {
+     "text": "Accepted: June 7, 2023",
+     "cells": [
+      "Accepted: June 7, 2023"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 294,
+     "fromTop": 498
+    },
+    {
+     "text": "subjected to molecular docking analysis using two docking programs (HADDOCK and",
+     "cells": [
+      "subjected to molecular docking analysis using two docking programs (HADDOCK and"
+     ],
+     "size": 9.5,
+     "x": 200,
+     "y": 290,
+     "fromTop": 502
+    },
+    {
+     "text": "Published: June 29, 2023",
+     "cells": [
+      "Published: June 29, 2023"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 277,
+     "fromTop": 515
+    },
+    {
+     "text": "GalaxyPepDock) to generate small peptides with the highest affinity for visfatin. Further-",
+     "cells": [
+      "GalaxyPepDock) to generate small peptides with the highest affinity for visfatin. Further-"
+     ],
+     "size": 9.5,
+     "x": 200,
+     "y": 276,
+     "fromTop": 516
+    },
+    {
+     "text": "more, molecular dynamics simulations (MD) were conducted to investigate the stability of",
+     "cells": [
+      "more, molecular dynamics simulations (MD) were conducted to investigate the stability of"
+     ],
+     "size": 9.5,
+     "x": 200,
+     "y": 262,
+     "fromTop": 530
+    },
+    {
+     "text": "Peer Review History: PLOS recognizes the",
+     "cells": [
+      "Peer Review History: PLOS recognizes the"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 260,
+     "fromTop": 532
+    },
+    {
+     "text": "benefits of transparency in the peer review",
+     "cells": [
+      "benefits of transparency in the peer review"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 249,
+     "fromTop": 543
+    },
+    {
+     "text": "the protein-ligand complexes by computing root mean square deviation (RSMD) and root",
+     "cells": [
+      "the protein-ligand complexes by computing root mean square deviation (RSMD) and root"
+     ],
+     "size": 9.5,
+     "x": 200,
+     "y": 248,
+     "fromTop": 544
+    },
+    {
+     "text": "process; therefore, we enable the publication of",
+     "cells": [
+      "process; therefore, we enable the publication of"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 238,
+     "fromTop": 554
+    },
+    {
+     "text": "mean square fluctuation(RMSF) plots for the visfatin-peptide complexes. Finally, peptides",
+     "cells": [
+      "mean square fluctuation(RMSF) plots for the visfatin-peptide complexes. Finally, peptides"
+     ],
+     "size": 9.5,
+     "x": 200,
+     "y": 234,
+     "fromTop": 558
+    },
+    {
+     "text": "all of the content of peer review and author",
+     "cells": [
+      "all of the content of peer review and author"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 227,
+     "fromTop": 565
+    },
+    {
+     "text": "with the highest affinity were examined for angiogenic activities, such as cell migration, inva-",
+     "cells": [
+      "with the highest affinity were examined for angiogenic activities, such as cell migration, inva-"
+     ],
+     "size": 9.5,
+     "x": 200,
+     "y": 220,
+     "fromTop": 572
+    },
+    {
+     "text": "responses alongside final, published articles. The",
+     "cells": [
+      "responses alongside final, published articles. The"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 216,
+     "fromTop": 576
+    },
+    {
+     "text": "sion, and tubule formation in human umbilical vein endothelial cells (HUVECs). Through the",
+     "cells": [
+      "sion, and tubule formation in human umbilical vein endothelial cells (HUVECs). Through the"
+     ],
+     "size": 9.5,
+     "x": 200,
+     "y": 206,
+     "fromTop": 586
+    },
+    {
+     "text": "editorial history of this article is available here:",
+     "cells": [
+      "editorial history of this article is available here:"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 205,
+     "fromTop": 587
+    },
+    {
+     "text": "https://doi.org/10.1371/journal.pone.0287577",
+     "cells": [
+      "https://doi.org/10.1371/journal.pone.0287577"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 194,
+     "fromTop": 598
+    },
+    {
+     "text": "docking analysis of the 114 truncated peptides, we screened nine peptides with a high affin-",
+     "cells": [
+      "docking analysis of the 114 truncated peptides, we screened nine peptides with a high affin-"
+     ],
+     "size": 9.5,
+     "x": 200,
+     "y": 192,
+     "fromTop": 600
+    },
+    {
+     "text": "ity for visfatin. Of these, we discovered two peptides (peptide-1: LEYKLHDFGY and pep-",
+     "cells": [
+      "ity for visfatin. Of these, we discovered two peptides (peptide-1: LEYKLHDFGY and pep-"
+     ],
+     "size": 9.5,
+     "x": 200,
+     "y": 178,
+     "fromTop": 614
+    },
+    {
+     "text": "Copyright: © 2023 Choi et al. This is an open",
+     "cells": [
+      "Copyright: © 2023 Choi et al. This is an open"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 177,
+     "fromTop": 615
+    },
+    {
+     "text": "access article distributed under the terms of the",
+     "cells": [
+      "access article distributed under the terms of the"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 166,
+     "fromTop": 626
+    },
+    {
+     "text": "tide-2: EYKLHDFGYRGV) with the highest affinity for visfatin. In an in vitro study, these two",
+     "cells": [
+      "tide-2: EYKLHDFGYRGV) with the highest affinity for visfatin. In an in vitrostudy, these two"
+     ],
+     "size": 9.5,
+     "x": 200,
+     "y": 164,
+     "fromTop": 628
+    },
+    {
+     "text": "Creative Commons Attribution License, which",
+     "cells": [
+      "Creative Commons Attribution License, which"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 155,
+     "fromTop": 637
+    },
+    {
+     "text": "peptides showed superior angiogenic activity compared to visfatin itself and stimulated",
+     "cells": [
+      "peptides showed superior angiogenic activity compared to visfatin itself and stimulated"
+     ],
+     "size": 9.5,
+     "x": 200,
+     "y": 150,
+     "fromTop": 642
+    },
+    {
+     "text": "permits unrestricted use, distribution, and",
+     "cells": [
+      "permits unrestricted use, distribution, and"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 144,
+     "fromTop": 648
+    },
+    {
+     "text": "mRNA expressions of visfatin and VEGF-A. These results show that the peptides generated",
+     "cells": [
+      "mRNA expressions of visfatin and VEGF-A. These results show that the peptides generated"
+     ],
+     "size": 9.5,
+     "x": 200,
+     "y": 136,
+     "fromTop": 656
+    },
+    {
+     "text": "reproduction in any medium, provided the original",
+     "cells": [
+      "reproduction in any medium, provided the original"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 133,
+     "fromTop": 659
+    },
+    {
+     "text": "author and source are credited. by the protein-peptide docking simulation have a more efficient angiogenic activity than the",
+     "cells": [
+      "author and source are credited.",
+      "by the protein-peptide docking simulation have a more efficient angiogenic activity than the"
+     ],
+     "size": 9.5,
+     "x": 36,
+     "y": 122,
+     "fromTop": 670
+    },
+    {
+     "text": "original visfatin.",
+     "cells": [
+      "original visfatin."
+     ],
+     "size": 9.5,
+     "x": 200,
+     "y": 108,
+     "fromTop": 684
+    },
+    {
+     "text": "Data Availability Statement: All relevant data are",
+     "cells": [
+      "Data Availability Statement: All relevant data are"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 105,
+     "fromTop": 687
+    },
+    {
+     "text": "within the manuscript and its Supporting",
+     "cells": [
+      "within the manuscript and its Supporting"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 94,
+     "fromTop": 698
+    },
+    {
+     "text": "Information files.",
+     "cells": [
+      "Information files."
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 83,
+     "fromTop": 709
+    },
+    {
+     "text": "PLOS ONE | https://doi.org/10.1371/journal.pone.0287577 June 29, 2023 1 / 17",
+     "cells": [
+      "PLOS ONE | https://doi.org/10.1371/journal.pone.0287577 June 29, 2023",
+      "1 / 17"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 36,
+     "fromTop": 756
+    }
+   ]
+  },
+  {
+   "number": 2,
+   "width": 612,
+   "height": 792,
+   "lines": [
+    {
+     "text": "PLOS ONE Visfatin-derived angiogenic peptides by computer simulation",
+     "cells": [
+      "PLOS ONE",
+      "Visfatin-derived angiogenic peptides by computer simulation"
+     ],
+     "size": 11,
+     "x": 35,
+     "y": 746,
+     "fromTop": 46
+    },
+    {
+     "text": "Funding: This work was supported by the National",
+     "cells": [
+      "Funding: This work was supported by the National"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 709,
+     "fromTop": 83
+    },
+    {
+     "text": "Research Foundation of Korea (NRF) grant funded",
+     "cells": [
+      "Research Foundation of Korea (NRF) grant funded"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 698,
+     "fromTop": 94
+    },
+    {
+     "text": "develop peptides,based on the active site of visfatin, with similar or superior angiogenic activity",
+     "cells": [
+      "develop peptides,based on the active site of visfatin, with similar or superior angiogenic activity"
+     ],
+     "size": 10,
+     "x": 200,
+     "y": 126,
+     "fromTop": 666
+    },
+    {
+     "text": "using computer simulation techniques.",
+     "cells": [
+      "using computer simulation techniques."
+     ],
+     "size": 10,
+     "x": 200,
+     "y": 113,
+     "fromTop": 679
+    },
+    {
+     "text": "PLOS ONE | https://doi.org/10.1371/journal.pone.0287577 June 29, 2023 2 / 17",
+     "cells": [
+      "PLOS ONE | https://doi.org/10.1371/journal.pone.0287577 June 29, 2023",
+      "2 / 17"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 36,
+     "fromTop": 756
+    }
+   ]
+  },
+  {
+   "number": 3,
+   "width": 612,
+   "height": 792,
+   "lines": [
+    {
+     "text": "PLOS ONE Visfatin-derived angiogenic peptides by computer simulation",
+     "cells": [
+      "PLOS ONE",
+      "Visfatin-derived angiogenic peptides by computer simulation"
+     ],
+     "size": 11,
+     "x": 35,
+     "y": 746,
+     "fromTop": 46
+    },
+    {
+     "text": "Materials and methods",
+     "cells": [
+      "Materials and methods"
+     ],
+     "size": 12,
+     "x": 200,
+     "y": 706,
+     "fromTop": 86
+    },
+    {
+     "text": "Construction of the peptide library",
+     "cells": [
+      "Construction of the peptide library"
+     ],
+     "size": 12,
+     "x": 200,
+     "y": 688,
+     "fromTop": 104
+    },
+    {
+     "text": "icity. The PlifePred [44] and HLP [45] web servers were used to predict the half-lives of pep-",
+     "cells": [
+      "icity. The PlifePred [44] and HLP [45] web servers were used to predict the half-lives of pep-"
+     ],
+     "size": 10,
+     "x": 200,
+     "y": 96,
+     "fromTop": 696
+    },
+    {
+     "text": "tides in blood and intestine-like environments, respectively. The AHTPin [46] and",
+     "cells": [
+      "tides in blood and intestine-like environments, respectively. The AHTPin [46] and"
+     ],
+     "size": 10,
+     "x": 200,
+     "y": 83,
+     "fromTop": 709
+    },
+    {
+     "text": "PLOS ONE | https://doi.org/10.1371/journal.pone.0287577 June 29, 2023 3 / 17",
+     "cells": [
+      "PLOS ONE | https://doi.org/10.1371/journal.pone.0287577 June 29, 2023",
+      "3 / 17"
+     ],
+     "size": 8,
+     "x": 36,
+     "y": 36,
+     "fromTop": 756
+    }
+   ]
+  }
+ ]
+}

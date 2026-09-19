@@ -42,6 +42,7 @@ Open an article page and click the toolbar button, or press **Alt+B** (rebindabl
 - **Duplicate warning** — every key you copy or save is remembered locally. If that key later comes up for a *different* page, a warning names the earlier page and date. Copying the same page again — after switching entry type or layout, say — says nothing.
 - **Library** — the button in the footer opens a page listing everything you have copied, searchable, with per-entry copy/delete and **Export all as .bib**.
 - **Theme** — light, dark, or follow the system, from the control in the top right of either page. The default follows your system, and the choice is applied before the popup paints, so there is no flash of the wrong palette.
+- **PDFs** — when the tab is a PDF there are no citation tags to read, so CiteKey reads the file instead. Click **Read the PDF** and it parses the first pages (1–5, your choice); **Open a file…** does the same for a PDF on your disk. See below for how much it can work out.
 - **Height** — the popup grows to fit its entry, so a typical one needs no scrolling at all. Chrome hard-caps a popup at 600px; past that only the middle section scrolls, keeping the controls and the Copy button in place.
 
 ## How the citation key is built
@@ -67,6 +68,27 @@ Read in order of reliability, first hit wins per field:
 
 **GitHub** — on `github.com` repositories and `*.github.io` pages the owner is the author (`author = {{slimeslab}}`) and the `owner/` prefix is dropped from the title, so `slimeslab/ComProScanner: A python package…` becomes `ComProScanner: A python package…`. The year comes from the newest date GitHub renders on the page. A page carrying proper `citation_*` tags overrides all of this.
 
+## Reading a PDF
+
+A publisher's article page hands over clean metadata. A PDF hands over almost nothing, so CiteKey works down three sources:
+
+1. **XMP** — publisher-typeset PDFs embed `dc:title`, `dc:creator` and `prism:*`. Reliable; the popup says so.
+2. **The info dictionary** — usually present, frequently junk ("Microsoft Word - draft3.doc"), so it is sanity-checked before use.
+3. **The page layout** — LaTeX PDFs, which is most preprints and many conference papers, carry no metadata at all. There the title is the largest run of text near the top of page one, the authors are the lines beneath it, and the venue comes from the boilerplate publishers print on the first page.
+
+On top of that:
+
+- **Entry type** is inferred — conference proceedings, journal article, preprint or book — from venue boilerplate, an ISBN, or an arXiv stamp.
+- **arXiv is cited as arXiv.** A preprint gets the entry arXiv itself provides — `@misc` with `eprint`, `archivePrefix` and `primaryClass` — with no journal, volume or pages, even when the PDF's own footnote names the conference the work later appeared at. You read the preprint; the entry says so. The same applies on an `arxiv.org/abs/` page.
+- **The year comes from the identifier**, not the stamp: `1706.03762` was first posted in June 2017, even on a copy stamped 2023 because it was revised.
+- **The journal comes from the running head**, the one place a journal prints its name on every page.
+- **A DOI found anywhere in the file** short-circuits all of it: Crossref then settles the record authoritatively.
+- **No DOI?** *Find this paper on Crossref* searches by title and author, and shows you what it found before applying it — a title search is a guess, not an identity, and it is capable of matching a repost from a different year.
+
+The popup says which of these it used, and how much to trust the result. Anything guessed is editable before you copy.
+
+How the file is read: from inside the tab, so PDFs behind a bot check or a login work — the browser already has the cookies and the cached file. If the viewer blocks that, use **Open a file…**, which always works and needs no permissions.
+
 Author names are normalised to `Last, First`, with name particles (van, von, de, del, …) kept with the surname and PubMed-style trailing initials (`Okafor CN`) understood as such. Names that look like organisations get the double braces BibTeX needs (`{{Google Cloud.}}`) so they are never reordered or abbreviated.
 
 ## Permissions
@@ -82,14 +104,14 @@ Author names are normalised to `Last, First`, with name particles (van, von, de,
 
 ```bash
 npm install       # jsdom and puppeteer-core, both dev-only
-npm test          # 41 tests
+npm test          # 54 tests
 npm run preview   # render both pages in Chrome with fixture data -> dist/preview
 npm run package   # build the Web Store zip -> dist
 ```
 
 `npm run preview` drives the Chrome already on your machine (set `CHROME_PATH` if it is somewhere unusual), serving the pages over localhost with the `chrome.*` APIs stubbed. It is how the UI gets checked in both themes without installing the extension, and it stages the store screenshots.
 
-The suite pins the key algorithm against known Scholar keys, pins both output layouts byte for byte, runs the real extractor against jsdom fixtures for Highwire, JSON-LD-only, GitHub, PubMed, arXiv, IEEE/PRISM, Dublin Core and empty pages, and guards the things a Web Store review would bounce (missing files, over-long listing text, unjustified permissions). `node_modules` is not part of the extension — only `manifest.json`, `src/`, `icons/` and `_locales/` are packaged.
+The suite pins the key algorithm against known Scholar keys, pins both output layouts byte for byte, runs the real extractor against jsdom fixtures for Highwire, JSON-LD-only, GitHub, PubMed, arXiv, IEEE/PRISM, Dublin Core and empty pages, runs the PDF heuristics against structures captured from four real PDFs (`scripts/pdf-fixture.mjs` captures more), and guards the things a Web Store review would bounce (missing files, over-long listing text, unjustified permissions). `node_modules` is not part of the extension — only `manifest.json`, `src/`, `icons/` and `_locales/` are packaged.
 
 | File | Role |
 | --- | --- |
@@ -97,7 +119,10 @@ The suite pins the key algorithm against known Scholar keys, pins both output la
 | [src/extract.js](src/extract.js) | injected into the page; returns one metadata record |
 | [src/bibtex.js](src/bibtex.js) | key generation, escaping, entry rendering |
 | [src/entry.js](src/entry.js) | shared pure helpers: authors, settings, library |
-| [src/crossref.js](src/crossref.js) | DOI lookup and record merging |
+| [src/crossref.js](src/crossref.js) | DOI lookup, title search, record merging |
+| [src/pdfread.js](src/pdfread.js) | pdf.js wrapper: PDF bytes to lines, cells and metadata |
+| [src/pdfmeta.js](src/pdfmeta.js) | what a PDF is: title, authors, venue, type, confidence |
+| [src/pdfsource.js](src/pdfsource.js) | getting the bytes of the PDF in the tab |
 | [src/popup.*](src/popup.js) | the popup |
 | [src/library.*](src/library.js) | saved entries and preferences |
 | [src/theme.css](src/theme.css), [src/theme.js](src/theme.js) | design tokens, shared components, pre-paint theme |
@@ -112,3 +137,5 @@ Issues and pull requests are welcome at <https://github.com/aritraroy24/citekey>
 ## Licence
 
 MIT — see [LICENSE](LICENSE).
+
+PDF reading uses [pdf.js](https://github.com/mozilla/pdf.js), vendored under [src/vendor/](src/vendor/) because an extension cannot load code from a CDN. It is Apache-2.0 and unmodified; its licence travels with it.

@@ -76,14 +76,50 @@
         <span id="dupeText"></span>
       </p>
 
+      <div id="pdfPanel" class="pdf card" hidden>
+        <div class="pdf-head">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" /><path d="M14 3v5h5" /></svg>
+          <span id="pdfStatus">This tab is a PDF. Read the first pages to build the entry?</span>
+        </div>
+        <div class="pdf-actions">
+          <button id="readPdf" class="btn" type="button">Read the PDF</button>
+          <label class="btn file">
+            Open a file…
+            <input id="pdfFile" type="file" accept="application/pdf,.pdf" hidden />
+          </label>
+          <label class="pages">
+            Pages
+            <select id="pdfPages">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3" selected>3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div id="matchPanel" class="match card" hidden>
+        <p id="matchText" class="match-text"></p>
+        <div class="pdf-actions">
+          <button id="matchApply" class="btn btn-primary" type="button">Use this record</button>
+          <button id="matchDismiss" class="btn" type="button">Keep mine</button>
+        </div>
+      </div>
+
       <div id="crossrefRow" class="crossref" hidden>
         <button id="crossref" class="btn btn-ghost" type="button">
           <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 4.5v15M4.5 12h15" /></svg>
           Complete this entry from Crossref
         </button>
-    </div>
+        <button id="crossrefSearch" class="btn btn-ghost" type="button" hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="6.3" /><path d="m15.8 15.8 4 4" /></svg>
+          Find this paper on Crossref
+        </button>
+      </div>
 
-    <section id="fields" class="card fields" hidden>
+      <section id="fields" class="card fields" hidden>
       <div class="field">
         <label class="label" for="f-key">Citation key</label>
         <input id="f-key" class="mono" />

@@ -8,6 +8,10 @@ _Last updated: 19 September 2026_
 
 When you click the CiteKey toolbar button (or press its keyboard shortcut), it reads the citation metadata of the page in the active tab: title, authors, journal, date, volume, issue, pages, DOI, publisher and URL, taken from the page's own `<meta>` tags and structured data. This happens only on the tab you explicitly activated it on, using Chrome's `activeTab` permission, and only at the moment you click. The extension does not run on pages you have not activated it on, and it reads no other browsing activity.
 
+## PDFs
+
+When the page you are on is a PDF, the extension reads the file itself to find the citation, because a PDF has no metadata tags for it to read. The file is fetched by the tab that is already displaying it and parsed **inside your browser**. Its contents are never uploaded, and nothing about it is stored beyond the citation fields you then choose to copy or save. Opening a PDF from your computer with "Open a file…" works the same way: the file is read in the browser and goes nowhere.
+
 ## What is stored, and where
 
 Two things are stored, both by Chrome, on your device:

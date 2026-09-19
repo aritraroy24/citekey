@@ -257,3 +257,30 @@ test("a page with nothing useful still returns a usable record", () => {
   assert.equal(data.url, "https://example.org/x");
   assert.equal(citationKey(data), "untitled", "no author and no year still yields a key");
 });
+
+test("an arXiv abstract page cites the preprint, like its PDF does", () => {
+  const data = scrape(
+    `<html><head>
+      <meta name="citation_title" content="Language Models are Few-Shot Learners">
+      <meta name="citation_author" content="Brown, Tom B.">
+      <meta name="citation_date" content="2020/05/28">
+      <meta name="citation_arxiv_id" content="2005.14165">
+      <meta name="citation_arxiv_primary_category" content="cs.CL">
+    </head><body></body></html>`,
+    "https://arxiv.org/abs/2005.14165"
+  );
+
+  assert.equal(data.eprint, "2005.14165");
+  assert.equal(data.primaryClass, "cs.CL");
+  assert.equal(defaultType(data), "misc", "a preprint is not an @article or an @online");
+  assert.equal(citationKey(data), "brown2020language");
+  assert.match(renderEntry(data, { type: "misc", includeUrl: false }), /archivePrefix=\{arXiv\}/);
+});
+
+test("the id is read from the url when the page has no arxiv meta tag", () => {
+  const data = scrape(
+    `<html><head><meta name="citation_title" content="Some preprint about things"></head><body></body></html>`,
+    "https://arxiv.org/abs/1706.03762v7"
+  );
+  assert.equal(data.eprint, "1706.03762");
+});

@@ -94,7 +94,8 @@ export const ENTRY_FIELDS = {
   // Scholar's own field order for journal articles, so diffs against its export stay small.
   article: ["title", "author", "journal", "volume", "number", "pages", "year", "publisher", "doi", "url", "urldate"],
   online: ["author", "title", "year", "url", "urldate", "note"],
-  misc: ["title", "author", "howpublished", "year", "url", "urldate", "note"],
+  // arXiv's own export order, for preprints: title, author, year, then the eprint fields.
+  misc: ["title", "author", "howpublished", "year", "eprint", "archivePrefix", "primaryClass", "url", "urldate", "note"],
   inproceedings: ["title", "author", "booktitle", "pages", "year", "organization", "publisher", "doi", "url", "urldate"],
   incollection: ["title", "author", "booktitle", "publisher", "pages", "year", "doi", "url", "urldate"],
   book: ["title", "author", "publisher", "year", "isbn", "url", "urldate"],
@@ -121,7 +122,11 @@ export function fieldsFor(entry, type) {
     doi: escapeValue(entry.doi),
     url: escapeValue(entry.url),
     urldate: escapeValue(entry.urldate),
-    howpublished: entry.url ? "\\url{" + escapeValue(entry.url) + "}" : "",
+    eprint: escapeValue(entry.eprint),
+    archivePrefix: entry.eprint ? "arXiv" : "",
+    primaryClass: escapeValue(entry.primaryClass),
+    // A preprint is identified by its eprint fields; \url{} on top of that is noise.
+    howpublished: entry.url && !entry.eprint ? "\\url{" + escapeValue(entry.url) + "}" : "",
     note: escapeValue(entry.note)
   };
 
@@ -155,9 +160,10 @@ export function renderEntry(entry, options = {}) {
 
 /** Best guess at the entry type from what the page actually advertised. */
 export function defaultType(entry) {
+  // A preprint is cited as the preprint it is, not as the version it later became.
+  if (entry.eprint || entry.isPreprint) return "misc";
   if (entry.isConference) return "inproceedings";
   if (entry.journal) return "article";
-  if (entry.isPreprint) return "misc";
   return "online";
 }
 

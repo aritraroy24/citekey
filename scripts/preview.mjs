@@ -93,18 +93,19 @@ const LIBRARY = {
 };
 
 /** The chrome.* surface the pages touch, backed by plain objects. */
-function stubSource(settings, library) {
+function stubSource(settings, library, page = ARTICLE) {
   return `
     const settings = ${JSON.stringify(settings)};
     const library = ${JSON.stringify(library)};
+    const page = ${JSON.stringify(page)};
     const area = (store) => ({
       get: async (key) => (key in store ? { [key]: store[key] } : {}),
       set: async (patch) => Object.assign(store, patch)
     });
     window.chrome = {
       storage: { sync: area({ settings }), local: area({ library }) },
-      tabs: { query: async () => [{ id: 1, url: ${JSON.stringify(ARTICLE.pageUrl)} }] },
-      scripting: { executeScript: async () => [{ result: ${JSON.stringify(ARTICLE)} }] },
+      tabs: { query: async () => [{ id: 1, url: page.pageUrl }] },
+      scripting: { executeScript: async () => [{ result: page }] },
       permissions: { request: async () => true },
       runtime: { openOptionsPage() {} }
     };
@@ -130,12 +131,12 @@ await mkdir(outDir, { recursive: true });
 
 const browser = await puppeteer.launch({ executablePath, headless: "new", args: ["--force-device-scale-factor=2"] });
 
-async function shoot(name, { page: pagePath, theme, width, height, settings = {}, library = {}, after, fullPage = true }) {
+async function shoot(name, { page: pagePath, theme, width, height, settings = {}, library = {}, after, fullPage = true, tabPage = ARTICLE }) {
   const page = await browser.newPage();
   // Start taller than the cap so the body can express its natural height before it is measured.
   await page.setViewport({ width, height: Math.max(height, 900), deviceScaleFactor: 2 });
   await page.emulateMediaFeatures([{ name: "prefers-color-scheme", value: theme === "dark" ? "dark" : "light" }]);
-  await page.evaluateOnNewDocument(stubSource({ theme: "system", ...settings }, library));
+  await page.evaluateOnNewDocument(stubSource({ theme: "system", ...settings }, library, tabPage));
   await page.goto(origin + pagePath, { waitUntil: "networkidle0" });
   await new Promise((r) => setTimeout(r, 250));
   if (after) await after(page);
@@ -188,6 +189,22 @@ await shoot("popup-online", {
   height: 600,
   fullPage: false,
   settings: { type: "online", style: "spaced", includeUrl: true }
+});
+await shoot("popup-pdf", {
+  page: "/src/popup.html",
+  theme: "light",
+  width: 440,
+  height: 600,
+  fullPage: false,
+  tabPage: {
+    ok: true,
+    isPdf: true,
+    title: "1706.03762v7.pdf",
+    authors: [],
+    url: "https://arxiv.org/pdf/1706.03762",
+    pageUrl: "https://arxiv.org/pdf/1706.03762",
+    hasScholarTags: false
+  }
 });
 await shoot("library-light", { page: "/src/library.html", theme: "light", width: 900, height: 900, library: LIBRARY });
 await shoot("library-dark", { page: "/src/library.html", theme: "dark", width: 900, height: 900, library: LIBRARY });
