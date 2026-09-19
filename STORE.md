@@ -7,13 +7,13 @@ Everything the developer dashboard asks for, ready to paste. Written for whoever
 **Name** (75 max)
 
 ```
-CiteKey — BibTeX with Scholar-matching keys
+CiteKey: one-click BibTeX with Scholar-matching keys
 ```
 
 **Short description** (132 max)
 
 ```
-Generate BibTeX for the article you are reading, with citation keys that match Google Scholar's so duplicate imports get flagged.
+One-click BibTeX for any journal article, with citation keys that match Google Scholar's so duplicates get flagged.
 ```
 
 **Category:** Workflow & Planning · **Language:** English
@@ -21,28 +21,50 @@ Generate BibTeX for the article you are reading, with citation keys that match G
 **Detailed description**
 
 ```
-CiteKey turns the journal article page you are reading into a finished BibTeX entry, and gives it the same citation key Google Scholar would give it.
+Generate a complete BibTeX entry for the paper you are reading — one click, without leaving the page.
 
-That key is the point. Reference managers — Zotero, JabRef, BibDesk, Overleaf — dedupe on the entry key. Import a paper from Scholar, then later grab the same paper from the publisher's site with another tool, and you quietly end up with two entries for one paper. CiteKey generates surname + year + first significant title word, lowercased and ASCII-folded, exactly as Scholar does, so the second import collides with the first and your manager flags it instead of duplicating it.
+ONE CLICK, NOT FOUR
 
-WHAT IT DOES
+Getting a BibTeX entry from Google Scholar means searching for the paper you already have open, clicking Cite, clicking BibTeX, waiting for a second page, and copying from it. You leave the article to fetch a citation for the article.
 
-• Reads the metadata the publisher already publishes — Highwire citation_* tags (Elsevier, Springer, Wiley, Taylor & Francis, SAGE, IEEE, PubMed Central, arXiv, OJS journals), bepress and EPrints repositories, PRISM, Dublin Core, schema.org JSON-LD, and Open Graph as a last resort.
-• Picks the entry type from what the page actually is: @article for journal articles, @inproceedings for conference papers, @online for everything else.
-• Writes @online in the layout web sources need, with url and urldate, and @article in Scholar's own compact field order.
-• Cites GitHub repositories and GitHub Pages sites by their owner, without the owner/ prefix cluttering the title.
-• Warns you when a citation key you just generated was already used for a different source.
-• Keeps a local library of what you have copied, searchable, exportable as a single .bib file.
-• Completes a sparse entry from Crossref when a DOI is present — optional, and it asks before it ever touches the network.
-• Every field is editable before you copy, including the key itself.
-• Light, dark and system themes.
+CiteKey reads the citation metadata that journal pages already embed for indexing services, so the entry is finished before you see it. Click the toolbar button, click Copy. Done, on the page you were already on.
+
+IT WORKS WHEN SCHOLAR WILL NOT
+
+Scholar throttles traffic that looks automated, and a commercial VPN is often enough to trigger it: thousands of people share those exit addresses, so the traffic from one looks like a bot to Scholar and you get a CAPTCHA instead of a BibTeX link. If you keep a VPN running for other work, that is exactly when Scholar stops cooperating. CiteKey never contacts Scholar — it reads the page already open in front of you — so a VPN changes nothing.
+
+KEYS THAT MATCH, SO DUPLICATES GET CAUGHT
+
+Reference managers deduplicate on the entry key. Take a paper from Scholar today, then the same paper from the publisher's site next month with a different tool, and you quietly end up with two entries for one paper and two keys in your manuscript.
+
+CiteKey builds the key the way Scholar does: first author's surname, the year, and the first significant word of the title, lowercased and reduced to plain ASCII — lecun2015deep, van2008visualizing. Import from both sources and the second collides with the first, so your reference manager flags it instead of duplicating it.
+
+WHAT IT HANDLES
+
+• Journal articles, conference papers, book chapters, theses, technical reports and preprints, each given the right entry type automatically
+• Web pages as @online, with url and urldate, and organisations as authors written the way BibTeX needs them
+• Code repositories, cited by their owner rather than by the page title
+• Any page carrying standard citation metadata, which covers most academic publishers and institutional repositories
+
+AND
+
+• Every field editable before you copy, including the citation key
+• Two layouts: a compact field order, or a spaced layout for web sources
+• A local library of everything you have copied, searchable, exportable as a single .bib file
+• Optional Crossref lookup to complete a sparse entry from its DOI — it asks before it ever touches the network
+• Light, dark and system themes
+• Keyboard shortcut: Alt+B
 
 PRIVACY
 
-No account, no analytics, no server. The extension reads a page only when you click its button, stores your entries on your own device, and makes no network request unless you explicitly ask for a Crossref lookup.
+No account, no analytics, no server, no tracking. CiteKey reads a page only when you click its button, keeps your entries on your own device, and makes no network request at all unless you explicitly ask for a Crossref lookup.
 
-Open source: https://github.com/aritraroy24/citekey
+Free and open source: https://github.com/aritraroy24/citekey
 ```
+
+### Keep brand names out
+
+A first submission was rejected for keyword spam over a list of publisher names in the detailed description. Describe what the extension reads — "pages carrying standard citation metadata" — rather than listing the publishers, repositories, or reference managers it works with. One or two names where they are functionally necessary (Google Scholar, Crossref) are fine; a roll-call is not.
 
 ## Permission justifications
 
@@ -67,7 +89,7 @@ Privacy policy URL: the raw link to `PRIVACY.md` in the repository, or a page ho
 ## Assets checklist
 
 - [x] Icon 128×128 (`icons/icon128.png`)
-- [~] Screenshot 1280×800 — popup open over a real article page on a publisher site, `@article` selected. `docs/screenshots/popup-on-article.png` is this shot (RSC *Digital Discovery*, dark theme) but is 1912×1199: resize or crop to exactly 1280×800 before uploading
+- [x] Screenshot 1280×800 — popup open over a real article page on a publisher site, `@article` selected: `docs/screenshots/popup-on-article.png` (RSC *Digital Discovery*, dark theme), already at store size
 - [ ] Screenshot 1280×800 — popup with `@online` selected, showing url + urldate
 - [ ] Screenshot 1280×800 — the duplicate-key warning
 - [ ] Screenshot 1280×800 — the library page with several entries

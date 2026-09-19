@@ -1,10 +1,10 @@
 {
   "extName": {
-    "message": "CiteKey — BibTeX with Scholar-matching keys",
+    "message": "CiteKey: one-click BibTeX with Scholar-matching keys",
     "description": "Extension name shown in the Chrome Web Store and the toolbar."
   },
   "extDescription": {
-    "message": "Generate BibTeX for the article you are reading, with citation keys that match Google Scholar's so duplicate imports get flagged.",
+    "message": "One-click BibTeX for any journal article, with citation keys that match Google Scholar's so duplicates get flagged.",
     "description": "Store listing description, 132 characters or fewer."
   },
   "actionTitle": {

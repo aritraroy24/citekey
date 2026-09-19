@@ -2,6 +2,12 @@
 
 All notable changes to CiteKey. This project follows [semantic versioning](https://semver.org/).
 
+## [1.0.1] — 2026-09-19
+
+### Changed
+
+- Name and summary now lead with the benefit: "CiteKey: one-click BibTeX with Scholar-matching keys", and "One-click BibTeX for any journal article…".
+
 ## [1.0.0] — 2026-09-19
 
 First public release.
