@@ -1,0 +1,18 @@
+{
+  "extName": {
+    "message": "CiteKey — BibTeX with Scholar-matching keys",
+    "description": "Extension name shown in the Chrome Web Store and the toolbar."
+  },
+  "extDescription": {
+    "message": "Generate BibTeX for the article you are reading, with citation keys that match Google Scholar's so duplicate imports get flagged.",
+    "description": "Store listing description, 132 characters or fewer."
+  },
+  "actionTitle": {
+    "message": "Generate BibTeX for this page",
+    "description": "Toolbar button tooltip."
+  },
+  "commandOpen": {
+    "message": "Open CiteKey for the current page",
+    "description": "Keyboard shortcut description shown on chrome://extensions/shortcuts."
+  }
+}

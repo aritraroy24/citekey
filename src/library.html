@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>CiteKey — Library</title>
+    <link rel="stylesheet" href="popup.css" />
+    <link rel="stylesheet" href="library.css" />
+  </head>
+  <body class="page">
+    <h1>CiteKey library</h1>
+    <p class="lede">Every entry you have copied or saved, newest first. Everything here is stored in this browser only.</p>
+
+    <section class="settings">
+      <h2>Preferences</h2>
+      <label><input type="checkbox" id="keepLibrary" /> Keep a copy of each entry I copy or save</label>
+      <p class="hint">
+        Turning this off also turns off duplicate warnings, which need the record of past keys.
+      </p>
+      <label class="block" for="defaultType">Default entry type</label>
+      <select id="defaultType">
+        <option value="auto">Follow the page (recommended)</option>
+        <option value="article">Always @article</option>
+        <option value="online">Always @online</option>
+        <option value="misc">Always @misc</option>
+      </select>
+      <label class="block" for="defaultStyle">Default layout</label>
+      <select id="defaultStyle">
+        <option value="auto">Follow the entry type (recommended)</option>
+        <option value="scholar">Always Scholar (compact)</option>
+        <option value="spaced">Always spaced</option>
+      </select>
+      <p class="hint">
+        Keyboard shortcut: set one at <span class="mono">chrome://extensions/shortcuts</span> (Alt+B by default).
+      </p>
+    </section>
+
+    <div class="row actions">
+      <input id="search" type="search" placeholder="Filter by key, title or URL" aria-label="Filter entries" />
+      <button id="exportAll" type="button">Export all as .bib</button>
+      <button id="clear" class="danger" type="button">Clear library</button>
+      <span id="toast" class="toast" role="status" aria-live="polite" hidden></span>
+    </div>
+
+    <p id="count" class="lede" role="status" aria-live="polite"></p>
+    <ul id="entries" class="entries"></ul>
+
+    <template id="entryTemplate">
+      <li class="entry">
+        <div class="entry-head">
+          <code class="entry-key"></code>
+          <span class="entry-type"></span>
+          <time class="entry-date"></time>
+        </div>
+        <p class="entry-title"></p>
+        <a class="entry-url" target="_blank" rel="noreferrer noopener"></a>
+        <pre class="entry-bib"></pre>
+        <div class="row">
+          <button class="entry-copy" type="button">Copy</button>
+          <button class="entry-delete link" type="button">Delete</button>
+        </div>
+      </li>
+    </template>
+
+    <script type="module" src="library.js"></script>
+  </body>
+</html>

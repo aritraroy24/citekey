@@ -1,0 +1,69 @@
+/* The library reuses popup.css for tokens and controls; this file only widens it into a page. */
+
+body.page {
+  width: auto;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+h1 { font-size: 20px; margin: 0 0 4px; }
+h2 { font-size: 14px; margin: 0 0 8px; }
+
+.lede { color: var(--muted); margin: 0 0 16px; }
+
+.settings {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+}
+
+.settings label { display: inline-flex; align-items: center; gap: 6px; }
+.settings label.block { display: block; margin: 10px 0 4px; color: var(--muted); font-size: 12px; }
+.settings .hint { color: var(--muted); font-size: 12px; margin: 6px 0 0; }
+
+.mono { font-family: "Cascadia Mono", Consolas, ui-monospace, monospace; }
+
+.actions { gap: 8px; align-items: center; }
+.actions input[type="search"] { flex: 1 1 220px; min-width: 160px; }
+
+button.danger { color: var(--dupe-fg); border-color: var(--dupe-fg); background: transparent; }
+button:disabled { opacity: 0.5; cursor: default; }
+
+.entries { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+
+.entry {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.entry-head { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.entry-key { font-weight: 600; }
+.entry-type, .entry-date { color: var(--muted); font-size: 12px; }
+.entry-title { margin: 4px 0; }
+
+.entry-url {
+  color: var(--accent);
+  font-size: 12px;
+  word-break: break-all;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+.entry-bib {
+  background: var(--field-bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px;
+  margin: 0 0 8px;
+  overflow-x: auto;
+  font-family: "Cascadia Mono", Consolas, ui-monospace, monospace;
+  font-size: 12px;
+}
+
+@media (max-width: 560px) {
+  body.page { padding: 16px 12px 32px; }
+  .actions { flex-direction: column; align-items: stretch; }
+}

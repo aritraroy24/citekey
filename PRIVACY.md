@@ -1,0 +1,30 @@
+# Privacy policy — CiteKey
+
+_Last updated: 19 September 2026_
+
+**CiteKey does not collect, transmit, or sell any data.** There is no account, no analytics, no telemetry, and no server belonging to this extension.
+
+## What the extension reads
+
+When you click the CiteKey toolbar button (or press its keyboard shortcut), it reads the citation metadata of the page in the active tab: title, authors, journal, date, volume, issue, pages, DOI, publisher and URL, taken from the page's own `<meta>` tags and structured data. This happens only on the tab you explicitly activated it on, using Chrome's `activeTab` permission, and only at the moment you click. The extension does not run on pages you have not activated it on, and it reads no other browsing activity.
+
+## What is stored, and where
+
+Two things are stored, both by Chrome, on your device:
+
+| Data | Storage | Why |
+| --- | --- | --- |
+| Your preferences (entry type, layout, field toggles) | `chrome.storage.sync` | So the popup opens the way you last left it. If you have Chrome Sync enabled, Chrome — not this extension — may sync them across your own signed-in devices. |
+| Entries you have copied or saved (citation key, title, URL, the BibTeX text, timestamp) | `chrome.storage.local` | To warn you when a citation key you generate has already been used for a different source, and to let the library page export them as one `.bib` file. Never leaves your device. |
+
+You can turn the second one off entirely ("Keep a copy of each entry" in the library page), delete individual entries, or clear the whole library at any time. Removing the extension deletes all of it.
+
+## Network requests
+
+The extension makes **no network requests by default**.
+
+One optional feature makes a single request when you ask for it: clicking "Complete this entry from Crossref" sends the DOI shown in the popup to `https://api.crossref.org` to retrieve the authoritative bibliographic record for that article. Chrome asks for your permission the first time, and the feature does nothing until you grant it. Only the DOI and Crossref's requested client identifier are sent — no personal information, no browsing history, no page content. Crossref's own privacy policy governs that request: <https://www.crossref.org/operations-and-sundry/privacy/>. You can revoke the permission at any time from `chrome://extensions`.
+
+## Contact
+
+Questions or concerns: open an issue at <https://github.com/aritraroy24/citekey/issues>.
