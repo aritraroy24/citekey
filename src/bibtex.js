@@ -115,7 +115,8 @@ export function fieldsFor(entry, type) {
     pages: escapeValue(entry.pages).replace(/\s*-{1,3}\s*/, "--"),
     year: (String(entry.year || "").match(/\d{4}/) || [""])[0],
     publisher: escapeValue(entry.publisher),
-    organization: escapeValue(entry.publisher),
+    // Only a separately named sponsor; otherwise @inproceedings would print the publisher twice.
+    organization: escapeValue(entry.organization),
     institution: escapeValue(entry.institution || entry.publisher),
     school: escapeValue(entry.institution || entry.publisher),
     isbn: escapeValue(entry.isbn),

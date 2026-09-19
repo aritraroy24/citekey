@@ -7,6 +7,7 @@ import {
   mergeSettings,
   resolveChoices,
   resolveTheme,
+  toBibtexName,
   addToLibrary,
   librarySorted,
   libraryToBib,
@@ -98,4 +99,38 @@ test("theme setting defaults to following the system and rejects nonsense", () =
   assert.equal(resolveTheme("sepia"), "system");
   assert.equal(resolveTheme(undefined), "system");
   assert.equal(mergeSettings({ theme: "dark" }).theme, "dark");
+});
+
+test("shouted names are put back into proper case", () => {
+  const name = (raw) => toBibtexName(raw).name;
+
+  // The case that started this: Wiley publishes its author tags in capitals.
+  assert.equal(name("TETLOCK, PAUL C."), "Tetlock, Paul C.");
+  assert.equal(name("PAUL C. TETLOCK"), "Tetlock, Paul C.");
+  // Half-shouted is just as common: the surname in capitals, the given name not.
+  assert.equal(name("TETLOCK, Paul C."), "Tetlock, Paul C.");
+
+  assert.equal(name("MCDONALD, JAMES"), "McDonald, James", "Mc keeps its capital");
+  assert.equal(name("O'NEILL, CATHY"), "O'Neill, Cathy");
+  assert.equal(name("ZHANG, MING-WEI"), "Zhang, Ming-Wei", "both halves of a hyphenated name");
+  assert.equal(name("VAN DER MAATEN, LAURENS"), "van der Maaten, Laurens", "particles go back to lower case");
+  assert.equal(name("SMITH, JOHN III"), "Smith, John III", "roman numerals are not words");
+  assert.equal(name("WU, LI"), "Wu, Li", "short surnames are names, not initials");
+});
+
+test("names the author writes mixed are left alone", () => {
+  const name = (raw) => toBibtexName(raw).name;
+  assert.equal(name("MacDonald, James"), "MacDonald, James");
+  assert.equal(name("van der Maaten, Laurens"), "van der Maaten, Laurens");
+  assert.equal(name("Vaswani, Ashish"), "Vaswani, Ashish");
+  assert.equal(name("Okafor CN"), "Okafor, CN", "trailing initials are not a shouted word");
+  assert.equal(name("Smith JA"), "Smith, JA");
+});
+
+test("acronyms are organisations, not shouted surnames", () => {
+  assert.deepEqual(toBibtexName("IEEE"), { name: "IEEE", corporate: true });
+  assert.deepEqual(toBibtexName("NASA"), { name: "NASA", corporate: true });
+  assert.deepEqual(toBibtexName("WHO"), { name: "WHO", corporate: true });
+  // An organisation keeps whatever capitals it uses.
+  assert.equal(toBibtexName("IEEE Computer Society", { corporate: true }).name, "IEEE Computer Society");
 });

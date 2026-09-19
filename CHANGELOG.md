@@ -6,6 +6,11 @@ All notable changes to CiteKey. This project follows [semantic versioning](https
 
 ### Added
 
+- Looks papers up in Crossref and OpenAlex rather than trusting a PDF's layout: a DOI is used directly, and without one both databases are searched by title, the best candidate scored against the title, authors and year the document gave, and any DOI it names followed for the complete record. OpenAlex covers the older workshop papers and preprints Crossref never registered.
+- Shows what a found record contradicts before applying it, and never replaces your fields without a click.
+- Puts shouted author names back into proper case: a publisher writing "TETLOCK, PAUL C." now yields "Tetlock, Paul C.". Initials, roman numerals, acronyms and deliberately mixed names are left as they are.
+- Reads IEEE Xplore, which publishes no citation tags at all and previously yielded a title and nothing else. The record it keeps in the page is used instead, giving authors, venue, volume, issue, pages, DOI and the right entry type. Only the bibliographic fields are read: that same object also holds the reader's institution and entitlements.
+
 - Reads PDFs. When the tab is a PDF there is no page metadata to scrape, so CiteKey parses the file itself: the embedded XMP and info dictionary where publishers provide them, and otherwise the layout of the first pages - the largest text near the top is the title, the lines beneath it are the authors, and the venue comes from the boilerplate a publisher prints on page one.
 - Works out the entry type from the PDF: conference proceedings, journal article, preprint or book.
 - Cites arXiv papers as preprints, in the shape arXiv's own export uses: `@misc` with `eprint`, `archivePrefix` and `primaryClass`, and no journal, volume or pages, even where the PDF's footnote names a conference. Abstract pages on arxiv.org are treated the same way.

@@ -284,3 +284,123 @@ test("the id is read from the url when the page has no arxiv meta tag", () => {
   );
   assert.equal(data.eprint, "1706.03762");
 });
+
+test("IEEE Xplore is read from its page script, which is all it offers", () => {
+  // Xplore publishes no citation_* tags; the record lives in xplGlobal.document.metadata.
+  // The userInfo here mirrors the real object, and must never reach the entry.
+  const data = scrape(
+    `<html><head>
+      <meta property="og:title" content="The Unreasonable Effectiveness of Deep Features as a Perceptual Metric">
+      <script>
+        xplGlobal.document.metadata={"userInfo":{"institutionName":"Some University","products":"EBOOKS:1872:2011"},
+        "title":"The Unreasonable Effectiveness of Deep Features as a Perceptual Metric",
+        "authors":[{"name":"Richard Zhang","firstName":"Richard","lastName":"Zhang"},
+                   {"name":"Phillip Isola","firstName":"Phillip","lastName":"Isola"}],
+        "publicationTitle":"2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition",
+        "publicationYear":"2018","startPage":"586","endPage":"595","publisher":"IEEE",
+        "doi":"10.1109/CVPR.2018.00068","issn":[{"format":"Electronic ISSN","value":"2575-7075"}],
+        "isConference":true,"isJournal":false};
+      </script>
+    </head><body></body></html>`,
+    "https://ieeexplore.ieee.org/document/8578166"
+  );
+
+  assert.deepEqual(data.authors.map((a) => a.name), ["Zhang, Richard", "Isola, Phillip"]);
+  assert.equal(data.journal, "2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition");
+  assert.equal(data.year, "2018");
+  assert.equal(data.pages, "586--595");
+  assert.equal(data.doi, "10.1109/CVPR.2018.00068");
+  assert.equal(data.issn, "2575-7075");
+  assert.equal(data.isConference, true);
+  assert.equal(data.hasScholarTags, true, "the page does carry a full record, just not in meta tags");
+  assert.equal(defaultType(data), "inproceedings");
+  assert.equal(citationKey(data), "zhang2018unreasonable");
+
+  // Nothing about the reader travels with the citation.
+  assert.doesNotMatch(JSON.stringify(data), /Some University|EBOOKS/, "user and subscription data must not be read");
+});
+
+test("an IEEE journal article comes out as @article, not @online", () => {
+  const data = scrape(
+    `<html><head>
+      <script>
+        xplGlobal.document.metadata={"title":"June 2022 Land Transportation News",
+        "authors":[{"name":"Bih-Yuan Ku","firstName":"Bih-Yuan","lastName":"Ku"}],
+        "publicationTitle":"IEEE Vehicular Technology Magazine","publicationYear":"2022",
+        "volume":"17","issue":"2","startPage":"10","endPage":"13","publisher":"IEEE",
+        "doi":"10.1109/MVT.2022.3156260","isConference":false,"isJournal":true};
+      </script>
+    </head><body></body></html>`,
+    "https://ieeexplore.ieee.org/document/9781658"
+  );
+
+  assert.equal(defaultType(data), "article");
+  assert.equal(data.volume, "17");
+  assert.equal(data.issue, "2");
+  assert.equal(citationKey(data), "ku2022june");
+  assert.equal(
+    renderEntry(data, { type: "article", includeUrl: false }),
+    [
+      "@article{ku2022june,",
+      "  title={June 2022 Land Transportation News},",
+      "  author={Ku, Bih-Yuan},",
+      "  journal={IEEE Vehicular Technology Magazine},",
+      "  volume={17},",
+      "  number={2},",
+      "  pages={10--13},",
+      "  year={2022},",
+      "  publisher={IEEE},",
+      "  doi={10.1109/MVT.2022.3156260}",
+      "}"
+    ].join("\n")
+  );
+});
+
+test("the page script is only trusted on ieee.org", () => {
+  const data = scrape(
+    `<html><head>
+      <title>Not IEEE</title>
+      <script>xplGlobal.document.metadata={"title":"Injected","authors":[{"name":"A B","firstName":"A","lastName":"B"}]};</script>
+    </head><body></body></html>`,
+    "https://evil.example/page"
+  );
+  assert.notEqual(data.title, "Injected");
+  assert.deepEqual(data.authors, []);
+});
+
+test("a publisher shouting its author tags does not shout in the entry", () => {
+  const data = scrape(
+    `<html><head>
+      <meta name="citation_title" content="Giving Content to Investor Sentiment: The Role of Media in the Stock Market">
+      <meta name="citation_author" content="TETLOCK, PAUL C.">
+      <meta name="citation_journal_title" content="The Journal of Finance">
+      <meta name="citation_publisher" content="John Wiley &amp; Sons, Ltd">
+      <meta name="citation_volume" content="62">
+      <meta name="citation_issue" content="3">
+      <meta name="citation_firstpage" content="1139">
+      <meta name="citation_lastpage" content="1168">
+      <meta name="citation_publication_date" content="2007/06/01">
+      <meta name="citation_doi" content="10.1111/j.1540-6261.2007.01232.x">
+    </head><body></body></html>`,
+    "https://onlinelibrary.wiley.com/doi/10.1111/j.1540-6261.2007.01232.x"
+  );
+
+  assert.deepEqual(data.authors, [{ name: "Tetlock, Paul C.", corporate: false }]);
+  assert.equal(citationKey(data), "tetlock2007giving");
+  assert.equal(
+    renderEntry(data, { type: "article", includeUrl: false }),
+    [
+      "@article{tetlock2007giving,",
+      "  title={Giving Content to Investor Sentiment: The Role of Media in the Stock Market},",
+      "  author={Tetlock, Paul C.},",
+      "  journal={The Journal of Finance},",
+      "  volume={62},",
+      "  number={3},",
+      "  pages={1139--1168},",
+      "  year={2007},",
+      "  publisher={John Wiley \\& Sons, Ltd},",
+      "  doi={10.1111/j.1540-6261.2007.01232.x}",
+      "}"
+    ].join("\n")
+  );
+});

@@ -89,3 +89,25 @@ test("every locale defines the same message keys", () => {
     assert.deepEqual(Object.keys(other).sort(), base, locale + " has a different set of messages");
   }
 });
+
+test("the PDF worker path resolves from the extension root, as getURL does", () => {
+  const reader = read("src/pdfread.js");
+
+  // chrome.runtime.getURL() resolves against the extension root, while a module import resolves
+  // against the importing file. The same directory therefore has two different spellings, and
+  // getting the worker's one wrong fails only at the moment a user opens a PDF.
+  const worker = reader.match(/PDF_WORKER\s*=\s*"([^"]+)"/);
+  assert.ok(worker, "pdfread.js must name a worker file");
+  assert.ok(!worker[1].startsWith("./"), "a getURL path is root-relative, not module-relative");
+  assert.ok(existsSync(path.join(root, worker[1])), "missing worker: " + worker[1]);
+
+  const api = reader.match(/PDF_JS\s*=\s*"([^"]+)"/);
+  assert.ok(api, "pdfread.js must name the pdf.js module");
+  assert.ok(api[1].startsWith("./"), "an import is resolved against src/pdfread.js");
+  assert.ok(existsSync(path.join(root, "src", api[1])), "missing pdf.js: " + api[1]);
+});
+
+test("the vendored library keeps its licence", () => {
+  assert.ok(existsSync(path.join(root, "src/vendor/LICENSE")), "pdf.js is Apache-2.0; its licence must ship with it");
+  assert.match(read("src/vendor/LICENSE"), /Apache License/);
+});

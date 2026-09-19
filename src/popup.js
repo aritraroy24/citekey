@@ -9,7 +9,8 @@ import {
   addToLibrary,
   DEFAULT_SETTINGS
 } from "./entry.js";
-import { fetchCrossref, searchCrossref, mergeEntries, CROSSREF_PERMISSION } from "./crossref.js";
+import { fetchCrossref, mergeEntries, CROSSREF_PERMISSION } from "./crossref.js";
+import { resolveEntry, LOOKUP_PERMISSION } from "./lookup.js";
 import { readPdf } from "./pdfread.js";
 import { pdfToEntry } from "./pdfmeta.js";
 import { bytesForTab, bytesFromFile, looksLikePdfUrl } from "./pdfsource.js";
@@ -39,6 +40,7 @@ const els = {
   pdfPages: $("pdfPages"),
   matchPanel: $("matchPanel"),
   matchText: $("matchText"),
+  matchNotes: $("matchNotes"),
   matchApply: $("matchApply"),
   matchDismiss: $("matchDismiss"),
   output: $("output"),
@@ -332,32 +334,45 @@ async function readPdfFromTab() {
 /* ---------- Crossref match confirmation ---------- */
 
 /** A DOI is identity, so it applies straight away; a title search is a guess and is offered. */
-function offerMatch(found) {
+function offerMatch(found, result = {}) {
   pendingMatch = found;
+
   const where = found.journal ? ", " + found.journal : "";
-  els.matchText.textContent =
-    "Crossref found: " + found.title + (found.year ? " (" + found.year + ")" : "") + where +
-    ". Match " + Math.round((found.matchScore || 0) * 100) + "%.";
+  const summary = found.title + (found.year ? " (" + found.year + ")" : "") + where;
+  const confidence = result.via === "doi" ? "matched by DOI" : "match " + Math.round((result.score || 0) * 100) + "%";
+
+  els.matchText.textContent = "Found: " + summary + " — " + confidence + ".";
+
+  /* Where the record contradicts the document, say so rather than quietly overwriting: a
+     heavily reposted paper often resolves to a duplicate from the wrong year. */
+  const notes = result.disagreements || [];
+  els.matchNotes.textContent = notes.length ? "Differs from the document: " + notes.join("; ") + "." : "";
+  els.matchNotes.hidden = notes.length === 0;
   els.matchPanel.hidden = false;
 }
 
-async function searchOnCrossref() {
-  const granted = await chrome.permissions.request(CROSSREF_PERMISSION);
+/**
+ * Look the paper up by what we have. Reading a citation off a PDF's layout is guesswork; a
+ * bibliographic database knows the answer. Crossref and OpenAlex are both asked, because each
+ * holds works the other does not.
+ */
+async function lookUpEntry() {
+  const granted = await chrome.permissions.request(LOOKUP_PERMISSION);
   if (!granted) {
-    say("Crossref lookup needs permission to reach api.crossref.org.", "warn");
+    say("Looking the paper up needs permission to reach Crossref and OpenAlex.", "warn");
     return;
   }
 
   els.crossrefSearch.disabled = true;
-  say("Searching Crossref for this title…");
+  say("Looking this paper up…");
   try {
-    const found = await searchCrossref(readForm());
+    const found = await resolveEntry(readForm());
     if (!found) {
-      say("Crossref has no confident match for this title. The fields below are what the PDF says.", "warn");
+      say("No confident match in Crossref or OpenAlex. The fields below are what the document says.", "warn");
       return;
     }
-    offerMatch(found);
-    say("Crossref found a candidate — check it before applying.");
+    offerMatch(found.entry, found);
+    say("Found a record — check it before applying.");
   } catch (error) {
     say(error.message, "warn");
   } finally {
@@ -468,7 +483,7 @@ els.keyChip.addEventListener("click", async () => {
 els.toggleFields.addEventListener("click", () => showFields(els.fields.hidden));
 
 els.crossref.addEventListener("click", enrichFromCrossref);
-els.crossrefSearch.addEventListener("click", searchOnCrossref);
+els.crossrefSearch.addEventListener("click", lookUpEntry);
 els.readPdf.addEventListener("click", readPdfFromTab);
 
 els.pdfFile.addEventListener("change", async () => {

@@ -51,7 +51,7 @@ AND
 • Every field editable before you copy, including the citation key
 • Two layouts: a compact field order, or a spaced layout for web sources
 • A local library of everything you have copied, searchable, exportable as a single .bib file
-• Optional Crossref lookup to complete a sparse entry from its DOI — it asks before it ever touches the network
+• Optional lookup in Crossref and OpenAlex to complete or correct an entry — it asks before it ever touches the network, and shows you what it found before changing anything
 • Light, dark and system themes
 • Keyboard shortcut: Alt+B
 
@@ -75,6 +75,8 @@ Paste each into the matching box in the dashboard.
 **scripting** — Injects the metadata reader (`src/extract.js`) into that same activated tab to collect the `<meta>` tags and structured data. When the tab is a PDF, which carries no such tags, it also injects a short function that fetches that same PDF so the extension can parse it in the browser and read the citation from the document itself. Injection happens on click only; no content script is registered to run automatically on any site.
 
 **storage** — Saves the user's own preferences (entry type, layout, which fields to include) and the entries they have copied, so the extension can warn about duplicate citation keys and export a `.bib` file. All of it stays in the browser; nothing is transmitted.
+
+**`https://api.openalex.org/*`** (optional host permission) — Used alongside Crossref by the same user-initiated lookup. OpenAlex indexes older conference and workshop papers that were never registered with Crossref, which are exactly the documents whose citation cannot be read reliably from the page. Requested at the moment the user clicks, never at install.
 
 **`https://api.crossref.org/*`** (optional host permission) — Used only by the "Complete this entry from Crossref" button, to fetch the bibliographic record for a DOI shown on the page when the page's own metadata is incomplete. Requested at the moment the user clicks, never at install, and the extension is fully functional without it.
 

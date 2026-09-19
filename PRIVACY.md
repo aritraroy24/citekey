@@ -27,7 +27,7 @@ You can turn the second one off entirely ("Keep a copy of each entry" in the lib
 
 The extension makes **no network requests by default**.
 
-One optional feature makes a single request when you ask for it: clicking "Complete this entry from Crossref" sends the DOI shown in the popup to `https://api.crossref.org` to retrieve the authoritative bibliographic record for that article. Chrome asks for your permission the first time, and the feature does nothing until you grant it. Only the DOI and Crossref's requested client identifier are sent — no personal information, no browsing history, no page content. Crossref's own privacy policy governs that request: <https://www.crossref.org/operations-and-sundry/privacy/>. You can revoke the permission at any time from `chrome://extensions`.
+One optional feature makes requests when you ask for it: the lookup buttons send the DOI — or, when there is no DOI, the title and first author — to `https://api.crossref.org` and `https://api.openalex.org` to retrieve the bibliographic record for that work. Chrome asks for your permission the first time, and the feature does nothing until you grant it. Only the DOI and Crossref's requested client identifier are sent — no personal information, no browsing history, no page content. Those services' own privacy policies govern the requests: <https://www.crossref.org/operations-and-sundry/privacy/> and <https://openalex.org/privacy>. You can revoke the permission at any time from `chrome://extensions`.
 
 ## Contact
 

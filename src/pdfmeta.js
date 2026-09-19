@@ -103,6 +103,8 @@ export function titleFromLines(page) {
     const previous = block[block.length - 1];
     if (line.size < biggest - 0.4) break;
     if (previous.y - line.y > line.size * 2.5) break;
+    // A line of names is the author block, however it is typeset: the title ended above it.
+    if (looksLikeAuthorLine(line)) break;
     block.push(line);
   }
 
@@ -140,10 +142,20 @@ export function splitAuthorLine(line) {
     .filter(Boolean);
 }
 
+/** Does this line read as a list of names rather than as prose or a heading? */
+export function looksLikeAuthorLine(line) {
+  const segments = line.cells && line.cells.length > 1 ? line.cells : [line.text];
+  const names = segments.flatMap((segment) => splitAuthorLine(segment)).filter(looksLikePersonName);
+  if (!names.length) return false;
+  // Two names, or one name on a line that is nothing but that name.
+  return names.length > 1 || clean(names[0]).length >= clean(line.text).length - 3;
+}
+
 /** Author lines sit between the title and the abstract, above any affiliation block. */
 export function authorsFromLines(page, title) {
   if (!page || !page.lines) return [];
   const lines = page.lines;
+  const titleWords = new Set(clean(title).toLowerCase().split(/[^a-z0-9]+/).filter((w) => w.length > 3));
 
   let start = 0;
   if (title) {
@@ -159,7 +171,10 @@ export function authorsFromLines(page, title) {
     if (NOISE_RE.test(line.text) || line.text.includes("@") || AFFILIATION_RE.test(line.text)) continue;
 
     const segments = line.cells && line.cells.length > 1 ? line.cells : [line.text];
-    const parts = segments.flatMap((segment) => splitAuthorLine(segment)).filter(looksLikePersonName);
+    const parts = segments
+      .flatMap((segment) => splitAuthorLine(segment))
+      .filter(looksLikePersonName)
+      .filter((name) => !titleWords.has(name.toLowerCase()));
     if (!parts.length) continue;
     names.push(...parts);
     if (names.length >= 30) break;

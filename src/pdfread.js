@@ -4,8 +4,10 @@
    lets the interesting logic be tested without a PDF engine. Only the first few pages are read:
    a citation lives on page one, and parsing a 60-page monograph to find it would be wasteful. */
 
+/* The import is resolved against this module, but chrome.runtime.getURL() resolves against the
+   extension root — hence the two different spellings of the same directory. */
 const PDF_JS = "./vendor/pdf.min.mjs";
-const PDF_WORKER = "vendor/pdf.worker.min.mjs";
+const PDF_WORKER = "src/vendor/pdf.worker.min.mjs";
 
 /** XMP tags worth pulling; publisher-typeset PDFs carry most of them. */
 const XMP_TAGS = [

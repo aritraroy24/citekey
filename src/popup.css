@@ -201,3 +201,13 @@ body {
 .match { border-color: var(--accent); }
 .match-text { margin: 0 0 9px; font-size: 12px; }
 .match-text b { font-weight: 600; }
+
+.match-notes {
+  margin: -4px 0 9px;
+  font-size: 11.5px;
+  color: var(--warn-fg);
+  background: var(--warn-bg);
+  border: 1px solid var(--warn-line);
+  border-radius: var(--radius-sm);
+  padding: 5px 8px;
+}

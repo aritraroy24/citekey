@@ -4,6 +4,10 @@
    The host permission is optional and requested the first time the user asks for a lookup, so the
    install-time prompt stays limited to "read the page you clicked on". */
 
+import { titleSimilarity } from "./entry.js";
+
+export { titleSimilarity };
+
 export const CROSSREF_ORIGIN = "https://api.crossref.org/";
 export const CROSSREF_PERMISSION = { origins: ["https://api.crossref.org/*"] };
 
@@ -106,16 +110,6 @@ const normalise = (value) =>
     .replace(/[^a-z0-9 ]+/g, " ")
     .replace(/\s+/g, " ")
     .trim();
-
-/** Word-overlap similarity, 0 to 1. Good enough to tell "the same paper" from "a different one". */
-export function titleSimilarity(a, b) {
-  const left = new Set(normalise(a).split(" ").filter(Boolean));
-  const right = new Set(normalise(b).split(" ").filter(Boolean));
-  if (!left.size || !right.size) return 0;
-  let shared = 0;
-  for (const word of left) if (right.has(word)) shared += 1;
-  return shared / Math.max(left.size, right.size);
-}
 
 /**
  * Find a work by title and author when the PDF carries no DOI — which is the case for most

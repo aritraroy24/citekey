@@ -107,7 +107,7 @@ function stubSource(settings, library, page = ARTICLE) {
       tabs: { query: async () => [{ id: 1, url: page.pageUrl }] },
       scripting: { executeScript: async () => [{ result: page }] },
       permissions: { request: async () => true },
-      runtime: { openOptionsPage() {} }
+      runtime: { getURL: (p) => new URL(p, location.origin).href, openOptionsPage() {} }
     };
   `;
 }

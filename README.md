@@ -66,6 +66,8 @@ Read in order of reliability, first hit wins per field:
 4. **schema.org JSON-LD** (`ScholarlyArticle`, `Article`, `NewsArticle`, `WebPage`, …).
 5. **Open Graph** / `<h1>` / `<title>`, plus a DOI sniffed out of the page text.
 
+**IEEE Xplore** publishes no citation tags whatsoever — only `og:title`, which is why other tools get a bare `@online` from it. CiteKey reads the record Xplore keeps in the page as `xplGlobal.document.metadata`: authors, journal or conference name, volume, issue, pages, DOI, ISSN and publisher, and the flag that says whether the item is a journal article or a conference paper. Only the bibliographic fields are read; the same object carries the reader's institution and subscription entitlements, which the extension ignores.
+
 **GitHub** — on `github.com` repositories and `*.github.io` pages the owner is the author (`author = {{slimeslab}}`) and the `owner/` prefix is dropped from the title, so `slimeslab/ComProScanner: A python package…` becomes `ComProScanner: A python package…`. The year comes from the newest date GitHub renders on the page. A page carrying proper `citation_*` tags overrides all of this.
 
 ## Reading a PDF
@@ -83,11 +85,25 @@ On top of that:
 - **The year comes from the identifier**, not the stamp: `1706.03762` was first posted in June 2017, even on a copy stamped 2023 because it was revised.
 - **The journal comes from the running head**, the one place a journal prints its name on every page.
 - **A DOI found anywhere in the file** short-circuits all of it: Crossref then settles the record authoritatively.
-- **No DOI?** *Find this paper on Crossref* searches by title and author, and shows you what it found before applying it — a title search is a guess, not an identity, and it is capable of matching a repost from a different year.
+- **No DOI?** *Look this paper up* searches by title and author.
+
+### Looking a paper up
+
+Reading a citation off a PDF's layout goes wrong in ways that are obvious to a human and invisible to a heuristic — a subtitle swallowed into the author list, an affiliation read as a name. Rather than pile on more rules, the fields become a query:
+
+1. A DOI in the document is identity — it is looked up and used.
+2. With no DOI, **Crossref and OpenAlex** are both searched by title. Each holds works the other lacks: Crossref knows only what publishers registered with it, while OpenAlex indexes the older workshop papers and preprints that never got a DOI.
+3. A match that names a DOI is looked up again by that DOI, which returns the complete record rather than the subset a search result carries.
+
+Every candidate is scored on title similarity, agreement with the authors already extracted, and closeness to the year the document itself gives. That last part matters: a title search alone will happily return a repost of a famous paper dated years after the original, and the author list is what tells the two apart.
+
+**Nothing is applied behind your back.** A found record is shown with its match score and a list of what it contradicts — "year 2025, but the document says 2017" — and you choose *Use this record* or *Keep mine*. Neither database is treated as automatically right: for at least one well-known paper, OpenAlex's own record is dated years later than the PDF in front of you.
 
 The popup says which of these it used, and how much to trust the result. Anything guessed is editable before you copy.
 
 How the file is read: from inside the tab, so PDFs behind a bot check or a login work — the browser already has the cookies and the cached file. If the viewer blocks that, use **Open a file…**, which always works and needs no permissions.
+
+Author names that a publisher shouts — Wiley and several others write their tags as `TETLOCK, PAUL C.` — are put back into proper case. Only runs of capitals are lowered, so initials (`C.`), roman numerals (`III`), acronyms (`IEEE`) and names the author writes mixed (`MacDonald`, `van der Maaten`) survive untouched, and `MCDONALD` gets its capital back.
 
 Author names are normalised to `Last, First`, with name particles (van, von, de, del, …) kept with the surname and PubMed-style trailing initials (`Okafor CN`) understood as such. Names that look like organisations get the double braces BibTeX needs (`{{Google Cloud.}}`) so they are never reordered or abbreviated.
 

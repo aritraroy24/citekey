@@ -79,6 +79,77 @@
     return stamps.length ? stamps[stamps.length - 1] : "";
   };
 
+  /* ---------- IEEE Xplore ---------- */
+
+  /* IEEE Xplore publishes no citation_* tags at all — only og:title — but the whole record sits
+     in a script as xplGlobal.document.metadata. Only the bibliographic fields are read from it:
+     the same object also carries the reader's institution and subscription entitlements, which
+     are none of this extension's business. */
+  const ieee = (() => {
+    if (!/(^|\.)ieee\.org$/i.test(location.hostname)) return null;
+
+    for (const script of document.querySelectorAll("script")) {
+      const source = script.textContent || "";
+      const at = source.indexOf("xplGlobal.document.metadata");
+      if (at === -1) continue;
+
+      const open = source.indexOf("{", at);
+      if (open === -1) continue;
+
+      // Brace-match rather than regex: the object contains nested objects and escaped strings.
+      let depth = 0;
+      let inString = false;
+      let escaped = false;
+      for (let i = open; i < source.length; i += 1) {
+        const ch = source[i];
+        if (escaped) {
+          escaped = false;
+        } else if (ch === "\\") {
+          escaped = true;
+        } else if (ch === '"') {
+          inString = !inString;
+        } else if (!inString && ch === "{") {
+          depth += 1;
+        } else if (!inString && ch === "}") {
+          depth -= 1;
+          if (depth === 0) {
+            try {
+              const parsed = JSON.parse(source.slice(open, i + 1));
+              return parsed && parsed.title ? parsed : null;
+            } catch (_) {
+              return null;
+            }
+          }
+        }
+      }
+    }
+    return null;
+  })();
+
+  const ieeeAuthors = () => {
+    if (!ieee || !Array.isArray(ieee.authors)) return [];
+    return ieee.authors
+      .map((a) => {
+        if (a.lastName && a.firstName) return { name: text(a.lastName) + ", " + text(a.firstName), organisation: false };
+        return { name: text(a.name), organisation: undefined };
+      })
+      .filter((a) => a.name);
+  };
+
+  const ieeePages = () => {
+    if (!ieee) return "";
+    const first = text(ieee.startPage);
+    const last = text(ieee.endPage);
+    if (first && last && first !== last) return first + "--" + last;
+    return first || "";
+  };
+
+  const ieeeIssn = () => {
+    if (!ieee || !Array.isArray(ieee.issn)) return "";
+    const electronic = ieee.issn.find((i) => /electronic/i.test(i.format || ""));
+    return text((electronic || ieee.issn[0] || {}).value);
+  };
+
   /* ---------- schema.org JSON-LD ---------- */
 
   const jsonLdNodes = () => {
@@ -149,28 +220,51 @@
 
   const PARTICLES = ["van", "von", "de", "del", "della", "der", "den", "di", "da", "dos", "du", "la", "le", "bin", "ibn", "al", "ter", "ten", "st"];
 
+  /* Several publishers shout their author names — "TETLOCK, PAUL C." — which then travels into
+     every entry. Only runs of capitals are lowered, so initials, roman numerals and names the
+     author writes mixed ("MacDonald", "van der Maaten") survive untouched. Mirrors fixNameCaps()
+     in entry.js; this file is injected on its own and cannot import it. */
+  const ROMAN = /^(?:I{1,3}|IV|VI{0,3}|IX|XI{0,3}|XI?V|XX)$/;
+
+  const fixNameCaps = (value) =>
+    String(value || "").replace(/[^\s,]+/g, (token) => {
+      if (ROMAN.test(token)) return token;
+      if (!/[A-Z]{2,}/.test(token)) return token;
+
+      const titled = token.replace(/[A-Z]{2,}/g, (run) => run[0] + run.slice(1).toLowerCase());
+      const bare = titled.toLowerCase().replace(/\./g, "");
+      if (PARTICLES.includes(bare)) return titled.toLowerCase();
+      return titled.replace(/^Mc([a-z])/, (_, letter) => "Mc" + letter.toUpperCase());
+    });
+
   const normaliseAuthor = (raw, organisation) => {
     const name = text(raw).replace(/^(by|By)\s+/, "").replace(/[;|,]\s*$/, "").trim();
     if (!name || /^https?:/i.test(name)) return null;
 
     const corporate = organisation === true || (organisation !== false && looksCorporate(name));
+    // An organisation's capitals are its own: "IEEE" and "NASA" are not shouting.
     if (corporate) return { name, corporate: true };
+
+    /* All capitals means every run is shouted; in a mixed name only the longer runs are, so
+       "Okafor CN" keeps its initials. */
+    const shouted = !/[a-z]/.test(name);
+    const fix = (part) => (shouted ? fixNameCaps(part) : part.replace(/\b[A-Z]{3,}\b/g, (run) => fixNameCaps(run)));
 
     if (name.includes(",")) {
       // Already "Last, First M." — the order BibTeX wants.
       const [last, ...rest] = name.split(",");
       const given = text(rest.join(" "));
-      return { name: given ? text(last) + ", " + given : text(last), corporate: false };
+      return { name: given ? fix(text(last)) + ", " + fix(given) : fix(text(last)), corporate: false };
     }
 
     const parts = name.split(/\s+/);
-    if (parts.length === 1) return { name: parts[0], corporate: false };
+    if (parts.length === 1) return { name: fix(parts[0]), corporate: false };
 
     // PubMed and several indexes write "Okafor CN" — trailing initials, surname first already.
     const trailingInitials = /^(?:[A-Z]{1,3}|(?:[A-Z]\.){1,3})$/.test(parts[parts.length - 1]);
     if (trailingInitials) {
       const surname = parts.slice(0, -1).join(" ");
-      return { name: surname + ", " + parts[parts.length - 1], corporate: false };
+      return { name: fix(surname) + ", " + parts[parts.length - 1], corporate: false };
     }
 
     // "First M. Last" -> "Last, First M."
@@ -178,7 +272,7 @@
     while (cut > 1 && PARTICLES.includes(parts[cut - 1].toLowerCase().replace(/\./g, ""))) cut -= 1;
     const last = parts.slice(cut).join(" ");
     const given = parts.slice(0, cut).join(" ");
-    return { name: last + ", " + given, corporate: false };
+    return { name: fix(last) + ", " + fix(given), corporate: false };
   };
 
   const collectAuthors = () => {
@@ -188,7 +282,13 @@
       return [{ name: github.owner, corporate: true }];
     }
 
-    let raw = metaAll(
+    let raw = [];
+    if (ieee) {
+      const fromIeee = ieeeAuthors();
+      if (fromIeee.length) raw = fromIeee;
+    }
+
+    if (!raw.length) raw = metaAll(
       "citation_author", "bepress_citation_author", "eprints.creators_name",
       "dc.creator", "dcterms.creator", "dc.contributor", "author", "article:author", "parsely-author"
     ).map((n) => ({ name: n, organisation: undefined }));
@@ -233,6 +333,7 @@
 
   const rawTitle = text(
     meta("citation_title", "bepress_citation_title", "dc.title", "dcterms.title", "eprints.title") ||
+      (ieee ? ieee.title : "") ||
       ldName(ld.headline || ld.name) ||
       meta("og:title", "twitter:title") ||
       text(document.querySelector("h1") && document.querySelector("h1").textContent) ||
@@ -244,11 +345,14 @@
     meta(
       "citation_journal_title", "bepress_citation_journal_title", "citation_conference_title",
       "citation_inbook_title", "prism.publicationName", "dc.source", "dcterms.source"
-    ) || ldName(ld.isPartOf && (ld.isPartOf.isPartOf || ld.isPartOf))
+    ) ||
+      (ieee ? ieee.publicationTitle || ieee.displayPublicationTitle : "") ||
+      ldName(ld.isPartOf && (ld.isPartOf.isPartOf || ld.isPartOf))
   );
 
   const publisher = text(
     meta("citation_publisher", "bepress_citation_publisher", "dc.publisher", "dcterms.publisher", "prism.corporateEntity") ||
+      (ieee ? ieee.publisher : "") ||
       ldName(ld.publisher) ||
       siteName
   );
@@ -263,6 +367,7 @@
   const doiRaw = text(
     meta("citation_doi", "bepress_citation_doi", "prism.doi", "dc.identifier.doi", "doi") ||
       (String(meta("dc.identifier", "dcterms.identifier")).match(/10\.\d{4,9}\/\S+/) || [""])[0] ||
+      (ieee ? ieee.doi : "") ||
       ((bodyText().match(/\b10\.\d{4,9}\/[^\s"'<>]+/)) || [""])[0]
   );
   const doi = doiRaw.replace(/^(https?:\/\/(dx\.)?doi\.org\/|doi:\s*)/i, "").replace(/[.,;)\]]+$/, "");
@@ -298,6 +403,7 @@
       "bepress_citation_date", "prism.publicationDate", "prism.coverDate",
       "dc.date", "dcterms.issued", "dc.date.issued", "eprints.date"
     ),
+    ieee ? ieee.publicationYear || ieee.publicationDate : "",
     ld.datePublished,
     meta("article:published_time", "og:article:published_time", "date"),
     ld.dateCreated,
@@ -323,18 +429,18 @@
     journal,
     publisher,
     year,
-    volume: text(meta("citation_volume", "bepress_citation_volume", "prism.volume")),
-    issue: text(meta("citation_issue", "bepress_citation_issue", "prism.number")),
-    pages,
+    volume: text(meta("citation_volume", "bepress_citation_volume", "prism.volume") || (ieee ? ieee.volume : "")),
+    issue: text(meta("citation_issue", "bepress_citation_issue", "prism.number") || (ieee ? ieee.issue : "")),
+    pages: pages || ieeePages(),
     doi,
-    issn: text(meta("citation_issn", "prism.issn", "prism.eIssn")),
-    isbn: text(meta("citation_isbn", "prism.isbn")),
+    issn: text(meta("citation_issn", "prism.issn", "prism.eIssn") || ieeeIssn()),
+    isbn: text(meta("citation_isbn", "prism.isbn") || (ieee ? ieee.isbn : "")),
     institution: text(meta("citation_dissertation_institution", "citation_technical_report_institution", "eprints.institution")),
     url,
     pageUrl: location.href,
     siteName,
-    hasScholarTags: metas("citation_title").length > 0 || metas("bepress_citation_title").length > 0,
-    isConference: metas("citation_conference_title").length > 0,
+    hasScholarTags: metas("citation_title").length > 0 || metas("bepress_citation_title").length > 0 || Boolean(ieee),
+    isConference: metas("citation_conference_title").length > 0 || Boolean(ieee && ieee.isConference),
     isPreprint: /arxiv\.org|biorxiv|medrxiv|ssrn|preprints?\.org|osf\.io|researchsquare/i.test(location.hostname)
   };
 })();
