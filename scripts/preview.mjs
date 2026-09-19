@@ -130,29 +130,52 @@ await mkdir(outDir, { recursive: true });
 
 const browser = await puppeteer.launch({ executablePath, headless: "new", args: ["--force-device-scale-factor=2"] });
 
-async function shoot(name, { page: pagePath, theme, width, height, settings = {}, library = {}, after }) {
+async function shoot(name, { page: pagePath, theme, width, height, settings = {}, library = {}, after, fullPage = true }) {
   const page = await browser.newPage();
-  await page.setViewport({ width, height, deviceScaleFactor: 2 });
+  // Start taller than the cap so the body can express its natural height before it is measured.
+  await page.setViewport({ width, height: Math.max(height, 900), deviceScaleFactor: 2 });
   await page.emulateMediaFeatures([{ name: "prefers-color-scheme", value: theme === "dark" ? "dark" : "light" }]);
   await page.evaluateOnNewDocument(stubSource({ theme: "system", ...settings }, library));
   await page.goto(origin + pagePath, { waitUntil: "networkidle0" });
   await new Promise((r) => setTimeout(r, 250));
   if (after) await after(page);
+  // Chrome sizes a popup to the body and scrolls the whole document past 600px.
+  const metrics = await page.evaluate(() => {
+    const area = document.querySelector(".scroll");
+    return {
+      body: Math.ceil(document.body.getBoundingClientRect().height),
+      areaScrolls: area ? area.scrollHeight > area.clientHeight + 1 : false,
+      isPopup: Boolean(area)
+    };
+  });
+
+  if (metrics.isPopup) {
+    await page.setViewport({ width, height: Math.min(metrics.body, height), deviceScaleFactor: 2 });
+    await new Promise((r) => setTimeout(r, 120));
+  }
+
   const file = path.join(outDir, name + ".png");
-  await page.screenshot({ path: file, fullPage: true });
-  console.log("  " + path.relative(root, file));
+  await page.screenshot({ path: file, fullPage });
+
+  const note = !metrics.isPopup
+    ? "full page"
+    : metrics.areaScrolls
+      ? "at the 600px cap; middle section scrolls, controls and footer stay put"
+      : "fits with no scrolling";
+  console.log("  " + path.relative(root, file).padEnd(30) + " popup " + metrics.body + "px — " + note);
   await page.close();
 }
 
 console.log("Rendering with " + executablePath);
 
-await shoot("popup-light", { page: "/src/popup.html", theme: "light", width: 440, height: 620 });
-await shoot("popup-dark", { page: "/src/popup.html", theme: "dark", width: 440, height: 620 });
+await shoot("popup-light", { page: "/src/popup.html", theme: "light", width: 440, height: 600, fullPage: false });
+await shoot("popup-dark", { page: "/src/popup.html", theme: "dark", width: 440, height: 600, fullPage: false });
 await shoot("popup-fields", {
   page: "/src/popup.html",
   theme: "light",
   width: 440,
-  height: 900,
+  height: 600,
+  fullPage: false,
   after: async (page) => {
     await page.click("#toggleFields");
     await new Promise((r) => setTimeout(r, 200));
@@ -162,7 +185,8 @@ await shoot("popup-online", {
   page: "/src/popup.html",
   theme: "dark",
   width: 440,
-  height: 620,
+  height: 600,
+  fullPage: false,
   settings: { type: "online", style: "spaced", includeUrl: true }
 });
 await shoot("library-light", { page: "/src/library.html", theme: "light", width: 900, height: 900, library: LIBRARY });

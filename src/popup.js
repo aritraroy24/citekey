@@ -201,10 +201,10 @@ function render() {
   return bibtex;
 }
 
-/** Grow the output box to the entry, up to the point where the popup itself would get unwieldy. */
+/** Size the output box to the entry, so it never scrolls inside its own frame. */
 function fitOutput() {
   els.output.style.height = "auto";
-  els.output.style.height = Math.min(els.output.scrollHeight + 2, 320) + "px";
+  els.output.style.height = Math.max(els.output.scrollHeight + 2, 96) + "px";
 }
 
 /** Write to the status banner, choosing the calm or the warning treatment. */

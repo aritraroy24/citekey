@@ -19,4 +19,5 @@ First public release.
 - Preferences persisted across sessions, keyboard shortcut (Alt+B by default), and an editable form for every field including the key.
 - Light, dark and system themes, defaulting to the system setting and applied before first paint so the popup never flashes the wrong palette.
 - A design system shared by both pages: tokens for colour, spacing and type, switches, segmented controls, and status banners that state their tone with an icon as well as a colour.
-- `npm run preview` renders both pages in a real browser with fixture data, for checking a design change in both themes and for staging store screenshots.
+- The popup sizes itself to its content up to Chrome's 600px cap, with the output box grown to the entry. Past the cap only the middle section scrolls, so the entry-type controls and the Copy button never move out of reach.
+- `npm run preview` renders both pages in a real browser with fixture data and reports the popup's height, for checking a design change in both themes and for staging store screenshots.

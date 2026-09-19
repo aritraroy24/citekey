@@ -1,12 +1,41 @@
 /* Popup layout. Tokens and components live in theme.css. */
 
+/* Chrome caps a popup at 600px and scrolls the whole document past that, which drags the
+   header and the Copy button out of reach. Instead the popup is a column that stops at the
+   cap, with the middle section as the only thing that can scroll — so short entries need no
+   scrolling at all, and long ones keep the controls and the footer in place. */
 body {
   width: 440px;
+  max-height: 600px;
   padding: 12px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  overflow: hidden;
 }
+
+.scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* Room for the scrollbar when one appears, so content does not shift sideways. */
+  scrollbar-gutter: stable;
+}
+
+.scroll::-webkit-scrollbar { width: 9px; }
+.scroll::-webkit-scrollbar-track { background: transparent; }
+
+.scroll::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 999px;
+  border: 2px solid var(--bg);
+}
+
+.scroll::-webkit-scrollbar-thumb:hover { background: var(--fg-faint); }
 
 /* ---------- top bar ---------- */
 
@@ -88,6 +117,9 @@ body {
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
 }
+
+.grid + .grid { margin-top: 9px; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
 
 #f-key { font-family: var(--mono); font-variant-ligatures: none; font-size: 12px; }
 

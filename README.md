@@ -40,6 +40,7 @@ Open an article page and click the toolbar button, or press **Alt+B** (rebindabl
 - **Duplicate warning** — every key you copy or save is remembered locally. If that key later comes up for a *different* page, a warning names the earlier page and date. Copying the same page again — after switching entry type or layout, say — says nothing.
 - **Library** — the button in the footer opens a page listing everything you have copied, searchable, with per-entry copy/delete and **Export all as .bib**.
 - **Theme** — light, dark, or follow the system, from the control in the top right of either page. The default follows your system, and the choice is applied before the popup paints, so there is no flash of the wrong palette.
+- **Height** — the popup grows to fit its entry, so a typical one needs no scrolling at all. Chrome hard-caps a popup at 600px; past that only the middle section scrolls, keeping the controls and the Copy button in place.
 
 ## How the citation key is built
 

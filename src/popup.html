@@ -65,21 +65,22 @@
       </div>
     </div>
 
-    <p id="status" class="banner banner-quiet" role="status" aria-live="polite">
-      <svg class="icon-ok" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11" /></svg>
-      <svg class="icon-warn" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 8.5v5M12 17h.01" /><circle cx="12" cy="12" r="9" /></svg>
-      <span id="statusText">Reading the page…</span>
-    </p>
-    <p id="dupe" class="banner banner-alert" role="alert" aria-live="assertive" hidden>
-      <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 8.5v5M12 17h.01" /><circle cx="12" cy="12" r="9" /></svg>
-      <span id="dupeText"></span>
-    </p>
+    <div class="scroll">
+      <p id="status" class="banner banner-quiet" role="status" aria-live="polite">
+        <svg class="icon-ok" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11" /></svg>
+        <svg class="icon-warn" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 8.5v5M12 17h.01" /><circle cx="12" cy="12" r="9" /></svg>
+        <span id="statusText">Reading the page…</span>
+      </p>
+      <p id="dupe" class="banner banner-alert" role="alert" aria-live="assertive" hidden>
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 8.5v5M12 17h.01" /><circle cx="12" cy="12" r="9" /></svg>
+        <span id="dupeText"></span>
+      </p>
 
-    <div id="crossrefRow" class="crossref" hidden>
-      <button id="crossref" class="btn btn-ghost" type="button">
-        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 4.5v15M4.5 12h15" /></svg>
-        Complete this entry from Crossref
-      </button>
+      <div id="crossrefRow" class="crossref" hidden>
+        <button id="crossref" class="btn btn-ghost" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 4.5v15M4.5 12h15" /></svg>
+          Complete this entry from Crossref
+        </button>
     </div>
 
     <section id="fields" class="card fields" hidden>
@@ -114,7 +115,8 @@
 
     <div class="output-wrap">
       <label class="visually-hidden" for="output">BibTeX entry</label>
-      <textarea id="output" spellcheck="false" rows="11"></textarea>
+      <textarea id="output" spellcheck="false" rows="4"></textarea>
+    </div>
     </div>
 
     <footer class="actions">

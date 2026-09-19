@@ -76,8 +76,36 @@ test("both pages apply the theme before they paint", () => {
   }
 });
 
-test("the popup keeps its body inside the 800px Chrome allows a popup", () => {
-  const width = read("src/popup.css").match(/body\s*{[^}]*width:\s*(\d+)px/);
-  assert.ok(width, "popup.css must pin a body width");
-  assert.ok(Number(width[1]) <= 780, "a popup wider than ~780px gets clipped by Chrome");
+test("the popup stays inside the size Chrome allows a popup", () => {
+  const css = read("src/popup.css");
+  const body = css.match(/body\s*{[^}]*}/);
+  assert.ok(body, "popup.css must style the body");
+
+  const width = body[0].match(/width:\s*(\d+)px/);
+  assert.ok(width && Number(width[1]) <= 780, "a popup wider than ~780px gets clipped by Chrome");
+
+  const maxHeight = body[0].match(/max-height:\s*(\d+)px/);
+  assert.ok(maxHeight, "the body must cap its height, or Chrome scrolls the whole document");
+  assert.ok(Number(maxHeight[1]) <= 600, "Chrome caps a popup at 600px");
+});
+
+test("only the middle of the popup can scroll, so the controls and footer stay reachable", () => {
+  const html = read("src/popup.html");
+  const css = read("src/popup.css");
+
+  // The header, the controls card and the footer sit outside the scrolling region.
+  const scrollStart = html.indexOf('<div class="scroll">');
+  assert.notEqual(scrollStart, -1, "popup.html needs a .scroll region");
+  const scrollEnd = html.indexOf("<footer");
+  for (const id of ["status", "dupe", "crossrefRow", "fields", "output"]) {
+    const at = html.indexOf('id="' + id + '"');
+    assert.ok(at > scrollStart && at < scrollEnd, "#" + id + " belongs inside the scrolling region");
+  }
+  for (const marker of ["<header", 'class="controls']) {
+    assert.ok(html.indexOf(marker) < scrollStart, marker + " must sit above the scrolling region");
+  }
+  assert.ok(scrollEnd > html.indexOf('id="output"'), "the footer must sit below the scrolling region");
+
+  assert.match(css, /\.scroll\s*{[^}]*overflow-y:\s*auto/, ".scroll must be the scrolling element");
+  assert.match(css, /\.scroll\s*{[^}]*min-height:\s*0/, "a flex child needs min-height:0 before it will scroll");
 });
