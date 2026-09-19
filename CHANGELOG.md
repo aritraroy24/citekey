@@ -17,3 +17,6 @@ First public release.
 - Local library of copied entries, searchable, with export to a single `.bib` file.
 - Optional Crossref lookup to complete sparse entries from a DOI, behind a permission requested at the moment of use.
 - Preferences persisted across sessions, keyboard shortcut (Alt+B by default), and an editable form for every field including the key.
+- Light, dark and system themes, defaulting to the system setting and applied before first paint so the popup never flashes the wrong palette.
+- A design system shared by both pages: tokens for colour, spacing and type, switches, segmented controls, and status banners that state their tone with an icon as well as a colour.
+- `npm run preview` renders both pages in a real browser with fixture data, for checking a design change in both themes and for staging store screenshots.

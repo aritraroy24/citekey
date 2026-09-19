@@ -1,4 +1,4 @@
-import { librarySorted, libraryToBib, mergeSettings, DEFAULT_SETTINGS } from "./entry.js";
+import { librarySorted, libraryToBib, mergeSettings, resolveTheme, DEFAULT_SETTINGS } from "./entry.js";
 
 const $ = (id) => document.getElementById(id);
 
@@ -11,6 +11,7 @@ const els = {
   clear: $("clear"),
   count: $("count"),
   entries: $("entries"),
+  themeButtons: Array.from(document.querySelectorAll("[data-theme-choice]")),
   template: $("entryTemplate"),
   toast: $("toast")
 };
@@ -27,6 +28,15 @@ const saveLibrary = (next) => chrome.storage.local.set({ [LIBRARY_KEY]: next });
 async function saveSettings(patch) {
   settings = { ...settings, ...patch };
   await chrome.storage.sync.set({ [SETTINGS_KEY]: settings });
+}
+
+function applyTheme(theme) {
+  const value = resolveTheme(theme);
+  window.citekeyTheme.apply(value);
+  for (const button of els.themeButtons) {
+    button.setAttribute("aria-pressed", String(button.dataset.themeChoice === value));
+  }
+  return value;
 }
 
 function toast(message) {
@@ -105,12 +115,20 @@ function renderList() {
 async function init() {
   const stored = await chrome.storage.sync.get(SETTINGS_KEY);
   settings = mergeSettings(stored[SETTINGS_KEY]);
+  applyTheme(settings.theme);
   els.keepLibrary.checked = settings.keepLibrary;
   els.defaultType.value = settings.type;
   els.defaultStyle.value = settings.style;
 
   library = await loadLibrary();
   renderList();
+}
+
+for (const button of els.themeButtons) {
+  button.addEventListener("click", async () => {
+    const theme = applyTheme(button.dataset.themeChoice);
+    await saveSettings({ theme });
+  });
 }
 
 els.keepLibrary.addEventListener("change", () => saveSettings({ keepLibrary: els.keepLibrary.checked }));

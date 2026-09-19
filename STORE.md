@@ -35,6 +35,7 @@ WHAT IT DOES
 • Keeps a local library of what you have copied, searchable, exportable as a single .bib file.
 • Completes a sparse entry from Crossref when a DOI is present — optional, and it asks before it ever touches the network.
 • Every field is editable before you copy, including the key itself.
+• Light, dark and system themes.
 
 PRIVACY
 
@@ -74,9 +75,11 @@ Privacy policy URL: the raw link to `PRIVACY.md` in the repository, or a page ho
 
 Screenshots must be exactly 1280×800 or 640×400, with no browser chrome mock-ups that imply a partnership with anyone.
 
+`npm run preview` renders both pages at 2x with fixture data into `dist/preview`, in light and dark — a good starting point, though the hero shot is more convincing taken over a real article page with the popup open.
+
 ## Before you hit submit
 
-1. `npm test` is green (35 tests, including the manifest guards in `tests/manifest.test.mjs`).
+1. `npm test` is green (41 tests, including the manifest guards in `tests/manifest.test.mjs`).
 2. Load unpacked once more and check: keyboard shortcut, `@article` on a real publisher page, `@online` on a blog, the Crossref permission prompt, the library export.
 3. `npm run package` produces `citekey-<version>.zip` with no `node_modules`, `tests/` or dotfiles inside.
 4. Version in `manifest.json` matches the top entry of `CHANGELOG.md`.

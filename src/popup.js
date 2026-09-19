@@ -5,6 +5,7 @@ import {
   isSameSource,
   mergeSettings,
   resolveChoices,
+  resolveTheme,
   addToLibrary,
   DEFAULT_SETTINGS
 } from "./entry.js";
@@ -20,7 +21,11 @@ const els = {
   toggleFields: $("toggleFields"),
   fields: $("fields"),
   status: $("status"),
+  statusText: $("statusText"),
   dupe: $("dupe"),
+  dupeText: $("dupeText"),
+  keyChip: $("keyChip"),
+  themeButtons: Array.from(document.querySelectorAll("[data-theme-choice]")),
   crossrefRow: $("crossrefRow"),
   crossref: $("crossref"),
   output: $("output"),
@@ -148,9 +153,20 @@ async function checkDuplicate(key, current) {
     return;
   }
   const when = seen.at ? new Date(seen.at).toLocaleDateString() : "earlier";
-  els.dupe.textContent =
+  els.dupeText.textContent =
     "Key " + key + " was already used on " + when + " for “" + (seen.title || "another page") + "”. Check before importing both.";
   els.dupe.hidden = false;
+}
+
+/* ---------- theme ---------- */
+
+function applyTheme(theme) {
+  const value = resolveTheme(theme);
+  window.citekeyTheme.apply(value);
+  for (const button of els.themeButtons) {
+    button.setAttribute("aria-pressed", String(button.dataset.themeChoice === value));
+  }
+  return value;
 }
 
 /* ---------- rendering ---------- */
@@ -160,6 +176,7 @@ function render() {
   const type = els.type.value;
   const key = keyEdited && els.key.value.trim() ? els.key.value.trim() : citationKey(current);
   if (!keyEdited) els.key.value = key;
+  els.keyChip.textContent = key || "no key yet";
 
   const bibtex = renderEntry(current, {
     type,
@@ -169,17 +186,32 @@ function render() {
     includeDoi: els.includeDoi.checked
   });
   els.output.value = bibtex;
+  fitOutput();
 
   const notes = warnings(current, type);
-  els.status.textContent = notes.length
+  els.statusText.textContent = notes.length
     ? notes.join(" ")
-    : "Metadata read from the page. Key matches Google Scholar's format.";
-  els.status.classList.toggle("clean", notes.length === 0);
+    : "Read from the page. This key matches the one Scholar would export.";
+  els.status.classList.toggle("banner-warn", notes.length > 0);
+  els.status.classList.toggle("banner-quiet", notes.length === 0);
 
   els.crossrefRow.hidden = !current.doi;
 
   checkDuplicate(key, current);
   return bibtex;
+}
+
+/** Grow the output box to the entry, up to the point where the popup itself would get unwieldy. */
+function fitOutput() {
+  els.output.style.height = "auto";
+  els.output.style.height = Math.min(els.output.scrollHeight + 2, 320) + "px";
+}
+
+/** Write to the status banner, choosing the calm or the warning treatment. */
+function say(message, tone) {
+  els.statusText.textContent = message;
+  els.status.classList.toggle("banner-warn", tone === "warn");
+  els.status.classList.toggle("banner-quiet", tone !== "warn");
 }
 
 function toast(message) {
@@ -198,12 +230,12 @@ async function enrichFromCrossref() {
 
   const granted = await chrome.permissions.request(CROSSREF_PERMISSION);
   if (!granted) {
-    els.status.textContent = "Crossref lookup needs permission to reach api.crossref.org.";
+    say("Crossref lookup needs permission to reach api.crossref.org.", "warn");
     return;
   }
 
   els.crossref.disabled = true;
-  els.status.textContent = "Looking up " + current.doi + " on Crossref…";
+  say("Looking up " + current.doi + " on Crossref…");
   try {
     const looked = await fetchCrossref(current.doi);
     entry = mergeEntries({ ...entry, ...current }, looked);
@@ -213,7 +245,7 @@ async function enrichFromCrossref() {
     render();
     toast("Completed from Crossref.");
   } catch (error) {
-    els.status.textContent = error.message;
+    say(error.message, "warn");
   } finally {
     els.crossref.disabled = false;
   }
@@ -231,11 +263,12 @@ function applyChoices(detectedType) {
 
 async function init() {
   settings = await loadSettings();
+  applyTheme(settings.theme);
 
   try {
     entry = await readActiveTab();
   } catch (error) {
-    els.status.textContent = error.message + " You can still type the details in below.";
+    say(error.message + " You can still type the details in below.", "warn");
     showFields(true);
     entry = { authors: [], url: "", pageUrl: "", urldate: today() };
     fillForm(entry);
@@ -290,6 +323,20 @@ els.includeDoi.addEventListener("change", async () => {
 els.includeUrl.addEventListener("change", async () => {
   await saveSettings({ includeUrl: els.includeUrl.checked });
   render();
+});
+
+for (const button of els.themeButtons) {
+  button.addEventListener("click", async () => {
+    const theme = applyTheme(button.dataset.themeChoice);
+    await saveSettings({ theme });
+  });
+}
+
+els.keyChip.addEventListener("click", async () => {
+  const key = els.key.value.trim();
+  if (!key) return;
+  await navigator.clipboard.writeText(key);
+  toast("Key copied.");
 });
 
 els.toggleFields.addEventListener("click", () => showFields(els.fields.hidden));

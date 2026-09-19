@@ -39,6 +39,7 @@ Open an article page and click the toolbar button, or press **Alt+B** (rebindabl
 - **Complete from Crossref** — appears when the entry has a DOI. Fetches the authoritative record (authors, journal, volume, issue, pages, year) and merges it in, which is what rescues PDF viewers and older journal pages. Chrome asks for permission the first time; the extension is fully usable without it.
 - **Duplicate warning** — every key you copy or save is remembered locally. If that key later comes up for a *different* page, a warning names the earlier page and date. Copying the same page again — after switching entry type or layout, say — says nothing.
 - **Library** — the button in the footer opens a page listing everything you have copied, searchable, with per-entry copy/delete and **Export all as .bib**.
+- **Theme** — light, dark, or follow the system, from the control in the top right of either page. The default follows your system, and the choice is applied before the popup paints, so there is no flash of the wrong palette.
 
 ## How the citation key is built
 
@@ -77,10 +78,13 @@ Author names are normalised to `Last, First`, with name particles (van, von, de,
 ## Development
 
 ```bash
-npm install   # jsdom, used only by the tests
-npm test      # 35 tests
-npm run package
+npm install       # jsdom and puppeteer-core, both dev-only
+npm test          # 41 tests
+npm run preview   # render both pages in Chrome with fixture data -> dist/preview
+npm run package   # build the Web Store zip -> dist
 ```
+
+`npm run preview` drives the Chrome already on your machine (set `CHROME_PATH` if it is somewhere unusual), serving the pages over localhost with the `chrome.*` APIs stubbed. It is how the UI gets checked in both themes without installing the extension, and it stages the store screenshots.
 
 The suite pins the key algorithm against known Scholar keys, pins both output layouts byte for byte, runs the real extractor against jsdom fixtures for Highwire, JSON-LD-only, GitHub, PubMed, arXiv, IEEE/PRISM, Dublin Core and empty pages, and guards the things a Web Store review would bounce (missing files, over-long listing text, unjustified permissions). `node_modules` is not part of the extension — only `manifest.json`, `src/`, `icons/` and `_locales/` are packaged.
 
@@ -93,6 +97,8 @@ The suite pins the key algorithm against known Scholar keys, pins both output la
 | [src/crossref.js](src/crossref.js) | DOI lookup and record merging |
 | [src/popup.*](src/popup.js) | the popup |
 | [src/library.*](src/library.js) | saved entries and preferences |
+| [src/theme.css](src/theme.css), [src/theme.js](src/theme.js) | design tokens, shared components, pre-paint theme |
+| [scripts/preview.mjs](scripts/preview.mjs) | renders both pages in Chrome for review |
 | [scripts/package.mjs](scripts/package.mjs) | builds the Web Store zip |
 | [STORE.md](STORE.md) | listing copy, permission justifications, submission checklist |
 

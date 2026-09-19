@@ -6,6 +6,7 @@ import {
   isSameSource,
   mergeSettings,
   resolveChoices,
+  resolveTheme,
   addToLibrary,
   librarySorted,
   libraryToBib,
@@ -86,4 +87,15 @@ test("export joins entries into one .bib, newest first", () => {
     c2022z: { key: "c2022z", at: "2026-03-01T00:00:00Z" } // never rendered: skipped
   };
   assert.equal(libraryToBib(library), "@misc{b2021y}\n\n@misc{a2020x}\n");
+});
+
+test("theme setting defaults to following the system and rejects nonsense", () => {
+  assert.equal(DEFAULT_SETTINGS.theme, "system");
+  assert.equal(mergeSettings(undefined).theme, "system");
+  assert.equal(resolveTheme("dark"), "dark");
+  assert.equal(resolveTheme("light"), "light");
+  assert.equal(resolveTheme("system"), "system");
+  assert.equal(resolveTheme("sepia"), "system");
+  assert.equal(resolveTheme(undefined), "system");
+  assert.equal(mergeSettings({ theme: "dark" }).theme, "dark");
 });

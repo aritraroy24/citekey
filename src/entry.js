@@ -33,7 +33,16 @@ export function isSameSource(a, b) {
 
 /* ---------- settings ---------- */
 
+export const THEMES = ["system", "light", "dark"];
+
+/** Normalise a stored theme; anything unrecognised falls back to following the OS. */
+export function resolveTheme(theme) {
+  return THEMES.includes(theme) ? theme : "system";
+}
+
 export const DEFAULT_SETTINGS = {
+  /** "system" leaves the page to prefers-color-scheme; "light"/"dark" pin it. */
+  theme: "system",
   /** "auto" follows what the page declares; anything else pins the entry type. */
   type: "auto",
   /** "auto" pairs the Scholar layout with @article and the spaced layout with @online. */

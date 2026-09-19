@@ -3,70 +3,127 @@
   <head>
     <meta charset="utf-8" />
     <title>CiteKey</title>
+    <script src="theme.js"></script>
+    <link rel="stylesheet" href="theme.css" />
     <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
-    <header>
-      <div class="row">
-        <label for="type">Entry type</label>
-        <select id="type">
-          <option value="article">@article</option>
-          <option value="online">@online</option>
-          <option value="inproceedings">@inproceedings</option>
-          <option value="incollection">@incollection</option>
-          <option value="book">@book</option>
-          <option value="techreport">@techreport</option>
-          <option value="phdthesis">@phdthesis</option>
-          <option value="misc">@misc</option>
-        </select>
-        <label for="style">Layout</label>
-        <select id="style">
-          <option value="scholar">Scholar (compact)</option>
-          <option value="spaced">Spaced</option>
-        </select>
+    <header class="topbar">
+      <div class="brand">
+        <svg class="mark" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M9.5 4.2c-2.6 0-3.4 1.4-3.4 3.3v2.1c0 1.2-.6 1.9-1.8 2.4 1.2.5 1.8 1.2 1.8 2.4v2.1c0 1.9.8 3.3 3.4 3.3" />
+          <path d="M14.5 4.2c2.6 0 3.4 1.4 3.4 3.3v2.1c0 1.2.6 1.9 1.8 2.4-1.2.5-1.8 1.2-1.8 2.4v2.1c0 1.9-.8 3.3-3.4 3.3" />
+        </svg>
+        <span class="brand-name">CiteKey</span>
+        <code id="keyChip" class="chip" title="Citation key — click to copy">…</code>
       </div>
-      <div class="row toggles">
-        <label><input type="checkbox" id="includeUrl" /> url + urldate</label>
-        <label><input type="checkbox" id="includeDoi" /> doi</label>
-        <button id="toggleFields" class="link" type="button" aria-expanded="false" aria-controls="fields">Edit fields</button>
+
+      <div class="seg" role="group" aria-label="Theme">
+        <button type="button" data-theme-choice="light" aria-pressed="false" title="Light">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2" /><path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6" /></svg>
+          <span class="visually-hidden">Light theme</span>
+        </button>
+        <button type="button" data-theme-choice="dark" aria-pressed="false" title="Dark">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 13.4A8.2 8.2 0 1 1 10.6 4a6.6 6.6 0 0 0 9.4 9.4z" /></svg>
+          <span class="visually-hidden">Dark theme</span>
+        </button>
+        <button type="button" data-theme-choice="system" aria-pressed="true" title="Match system">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="12" rx="1.8" /><path d="M9 20h6M12 16.5V20" /></svg>
+          <span class="visually-hidden">System theme</span>
+        </button>
       </div>
     </header>
 
-    <p id="status" class="status" role="status" aria-live="polite">Reading the page…</p>
-    <p id="dupe" class="dupe" role="alert" aria-live="assertive" hidden></p>
+    <div class="controls card">
+      <div class="control-row">
+        <div class="control">
+          <label class="label" for="type">Entry type</label>
+          <select id="type">
+            <option value="article">@article</option>
+            <option value="online">@online</option>
+            <option value="inproceedings">@inproceedings</option>
+            <option value="incollection">@incollection</option>
+            <option value="book">@book</option>
+            <option value="techreport">@techreport</option>
+            <option value="phdthesis">@phdthesis</option>
+            <option value="misc">@misc</option>
+          </select>
+        </div>
+        <div class="control">
+          <label class="label" for="style">Layout</label>
+          <select id="style">
+            <option value="scholar">Scholar (compact)</option>
+            <option value="spaced">Spaced</option>
+          </select>
+        </div>
+      </div>
 
-    <div class="row enrich" id="crossrefRow" hidden>
-      <button id="crossref" class="link" type="button">Complete this entry from Crossref</button>
+      <div class="control-row toggles">
+        <label class="switch"><input type="checkbox" id="includeUrl" /><span>url + urldate</span></label>
+        <label class="switch"><input type="checkbox" id="includeDoi" /><span>doi</span></label>
+        <button id="toggleFields" class="btn btn-ghost" type="button" aria-expanded="false" aria-controls="fields">Edit fields</button>
+      </div>
     </div>
 
-    <section id="fields" hidden>
-      <div class="field"><label for="f-key">Citation key</label><input id="f-key" /></div>
+    <p id="status" class="banner banner-quiet" role="status" aria-live="polite">
+      <svg class="icon-ok" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11" /></svg>
+      <svg class="icon-warn" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 8.5v5M12 17h.01" /><circle cx="12" cy="12" r="9" /></svg>
+      <span id="statusText">Reading the page…</span>
+    </p>
+    <p id="dupe" class="banner banner-alert" role="alert" aria-live="assertive" hidden>
+      <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 8.5v5M12 17h.01" /><circle cx="12" cy="12" r="9" /></svg>
+      <span id="dupeText"></span>
+    </p>
+
+    <div id="crossrefRow" class="crossref" hidden>
+      <button id="crossref" class="btn btn-ghost" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M12 4.5v15M4.5 12h15" /></svg>
+        Complete this entry from Crossref
+      </button>
+    </div>
+
+    <section id="fields" class="card fields" hidden>
       <div class="field">
-        <label for="f-authors">Authors <span class="hint">one per line, “Last, First”; wrap an organisation in {braces}</span></label>
+        <label class="label" for="f-key">Citation key</label>
+        <input id="f-key" class="mono" />
+      </div>
+      <div class="field">
+        <label class="label" for="f-authors">Authors <span class="hint">one per line, “Last, First”; {braces} for an organisation</span></label>
         <textarea id="f-authors" rows="3"></textarea>
       </div>
-      <div class="field"><label for="f-title">Title</label><textarea id="f-title" rows="2"></textarea></div>
-      <div class="field"><label for="f-journal">Journal / booktitle</label><input id="f-journal" /></div>
-      <div class="grid">
-        <div class="field"><label for="f-year">Year</label><input id="f-year" /></div>
-        <div class="field"><label for="f-volume">Volume</label><input id="f-volume" /></div>
-        <div class="field"><label for="f-issue">Issue</label><input id="f-issue" /></div>
-        <div class="field"><label for="f-pages">Pages</label><input id="f-pages" /></div>
+      <div class="field">
+        <label class="label" for="f-title">Title</label>
+        <textarea id="f-title" rows="2"></textarea>
       </div>
-      <div class="field"><label for="f-publisher">Publisher</label><input id="f-publisher" /></div>
-      <div class="field"><label for="f-doi">DOI</label><input id="f-doi" /></div>
-      <div class="field"><label for="f-url">URL</label><input id="f-url" /></div>
-      <div class="field"><label for="f-urldate">Accessed (urldate)</label><input id="f-urldate" /></div>
-      <button id="reset" class="link" type="button">Re-read the page</button>
+      <div class="field">
+        <label class="label" for="f-journal">Journal / booktitle</label>
+        <input id="f-journal" />
+      </div>
+      <div class="grid">
+        <div class="field"><label class="label" for="f-year">Year</label><input id="f-year" /></div>
+        <div class="field"><label class="label" for="f-volume">Volume</label><input id="f-volume" /></div>
+        <div class="field"><label class="label" for="f-issue">Issue</label><input id="f-issue" /></div>
+        <div class="field"><label class="label" for="f-pages">Pages</label><input id="f-pages" /></div>
+      </div>
+      <div class="field"><label class="label" for="f-publisher">Publisher</label><input id="f-publisher" /></div>
+      <div class="field"><label class="label" for="f-doi">DOI</label><input id="f-doi" /></div>
+      <div class="field"><label class="label" for="f-url">URL</label><input id="f-url" /></div>
+      <div class="field"><label class="label" for="f-urldate">Accessed (urldate)</label><input id="f-urldate" /></div>
+      <button id="reset" class="btn btn-ghost" type="button">Re-read the page</button>
     </section>
 
-    <label class="visually-hidden" for="output">BibTeX entry</label>
-    <textarea id="output" spellcheck="false" rows="12"></textarea>
+    <div class="output-wrap">
+      <label class="visually-hidden" for="output">BibTeX entry</label>
+      <textarea id="output" spellcheck="false" rows="11"></textarea>
+    </div>
 
-    <footer>
-      <button id="copy" class="primary" type="button">Copy BibTeX</button>
-      <button id="download" type="button">Save .bib</button>
-      <button id="library" class="link" type="button">Library</button>
+    <footer class="actions">
+      <button id="copy" class="btn btn-primary" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V6a2 2 0 0 1 2-2h8" /></svg>
+        Copy BibTeX
+      </button>
+      <button id="download" class="btn" type="button">Save .bib</button>
+      <button id="library" class="btn btn-ghost" type="button">Library</button>
       <span id="toast" class="toast" role="status" aria-live="polite" hidden></span>
     </footer>
 
