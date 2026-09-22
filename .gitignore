@@ -1,3 +1,8 @@
 node_modules/
 dist/
 *.zip
+
+# Extension signing key and packed builds: publishing the key would let anyone ship
+# an update as you.
+*.pem
+*.crx
