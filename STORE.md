@@ -31,7 +31,7 @@ CiteKey reads the citation metadata that journal pages already embed for indexin
 
 IT WORKS WHEN SCHOLAR WILL NOT
 
-Scholar throttles traffic that looks automated, and a commercial VPN is often enough to trigger it: thousands of people share those exit addresses, so the traffic from one looks like a bot to Scholar and you get a CAPTCHA instead of a BibTeX link. If you keep a VPN running for other work, that is exactly when Scholar stops cooperating. CiteKey never contacts Scholar — it reads the page already open in front of you — so a VPN changes nothing.
+Scholar blocks traffic that looks automated, and a commercial VPN is often enough to trigger it: thousands of people share those exit addresses, so the traffic from one looks like a bot. You do not get a slower Scholar, you get no Scholar at all — and if you keep a VPN running for other work, that is precisely when you need a citation. CiteKey never contacts Scholar. It reads the page already open in front of you, so a VPN changes nothing.
 
 KEYS THAT MATCH, SO DUPLICATES GET CAUGHT
 
